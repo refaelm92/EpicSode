@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "406170433641",
+    "firebase_url": "https://epiclogin-f1c30.firebaseio.com",
+    "project_id": "epiclogin-f1c30",
+    "storage_bucket": "epiclogin-f1c30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406170433641:android:4afaa31f65cd90c8",
+        "android_client_info": {
+          "package_name": "com.example.idanzimbler.epiclogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406170433641-jnj53bfd80kd40bu13gtp7kdmg48krsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.idanzimbler.epiclogin",
+            "certificate_hash": "14c96fb8849957bdcd568a8d712e93ed657d1a5a"
+          }
+        },
+        {
+          "client_id": "406170433641-sa90e2j5e2ec3jhq9kkld1d81qrrokgi.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "406170433641-sa90e2j5e2ec3jhq9kkld1d81qrrokgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRtxSZ4wUGLzqypkVH9ocaxpsFVqTZi54"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406170433641-sa90e2j5e2ec3jhq9kkld1d81qrrokgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

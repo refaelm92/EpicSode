@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EpicSode</string>
+    <string name="email_hint">Email:</string>
+    <string name="pass_hint">Password:</string>
+    <string name="loginbtn">Log-in</string>
+    <string name="noaccbtn">Dont have account? Click to Sign-up!</string>
+    <string name="signupbtn">Sign up</string>
+    <string name="haveaccbtn">Already have account? Click to Log-in</string>
+    <string name="age_hint">Age:</string>
+    <string name="male_check">Male</string>
+    <string name="female_check">Female</string>
+    <string name="epicsode_logo">Epicsodelogo</string>
+
+</resources>
