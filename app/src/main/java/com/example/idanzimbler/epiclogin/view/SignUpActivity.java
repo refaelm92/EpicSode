@@ -1,4 +1,4 @@
-package com.example.idanzimbler.epiclogin;
+package com.example.idanzimbler.epiclogin.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,15 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.idanzimbler.epiclogin.R;
+import com.example.idanzimbler.epiclogin.modle.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

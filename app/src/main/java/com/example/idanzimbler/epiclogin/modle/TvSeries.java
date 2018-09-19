@@ -1,11 +1,13 @@
-package com.example.idanzimbler.epiclogin;
+package com.example.idanzimbler.epiclogin.modle;
 
 import java.util.ArrayList;
 
 public class TvSeries {
-    public String name, poster, popularity;
-    public int numOfSeasons;
-    public ArrayList<String> seasons;
+    private String name, poster;
+    private float popularity;
+    private int numOfSeasons;
+    private ArrayList<Integer> seasons;
+ //   private float rating;
 
     public int getNumOfSeasons() {
         return numOfSeasons;
@@ -31,27 +33,43 @@ public class TvSeries {
         this.poster = poster;
     }
 
-    public String getPopularity() {
+    public float getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(String popularity) {
+    public void setPopularity(float popularity) {
         this.popularity = popularity;
     }
 
-    public ArrayList<String> getSeasons() {
+    public ArrayList<Integer> getSeasons() {
         return seasons;
     }
 
-    public void setSeasons(ArrayList<String> seasons) {
+    public void setSeasons(ArrayList<Integer> seasons) {
         this.seasons = seasons;
     }
+//
+//    public String getImdbid() {
+//        return imdbid;
+//    }
+//
+//    public void setImdbid(String imdbid) {
+//        this.imdbid = imdbid;
+//    }
+//
+//    public float getRating() {
+//        return rating;
+//    }
+//
+//    public void setRating(float rating) {
+//        this.rating = rating;
+//    }
 
     public TvSeries() {
 
     }
 
-    public TvSeries(String name, String popularity, String poster, ArrayList<String> seasons, int numOfSeasons) {
+    public TvSeries(String name, float popularity, String poster, ArrayList<Integer> seasons, int numOfSeasons) {
         this.name = name;
         this.popularity = popularity;
         this.poster = poster;

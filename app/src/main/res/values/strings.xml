@@ -10,5 +10,7 @@
     <string name="male_check">Male</string>
     <string name="female_check">Female</string>
     <string name="epicsode_logo">Epicsodelogo</string>
+    <string name="search">SEARCH</string>
+    <string name="enter_tv_series_name">enter tv series name</string>
 
 </resources>

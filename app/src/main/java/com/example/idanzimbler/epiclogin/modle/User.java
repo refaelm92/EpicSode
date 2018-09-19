@@ -1,4 +1,4 @@
-package com.example.idanzimbler.epiclogin;
+package com.example.idanzimbler.epiclogin.modle;
 
 import java.util.ArrayList;
 
