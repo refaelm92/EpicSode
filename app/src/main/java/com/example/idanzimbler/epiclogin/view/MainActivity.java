@@ -15,11 +15,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     FirebaseAuth mAuth;
     EditText editTextEmail,editTextPassword;
     ProgressBar progressBar;
+    FirebaseDatabase database;
+    DatabaseReference seriesRef;
     //String Email,Password,Age,Gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        seriesRef = database.getReference("TvSeries");
         editTextEmail = (EditText)findViewById(R.id.emailtxt);
         editTextPassword = (EditText)findViewById(R.id.passtxt);
         progressBar = (ProgressBar)findViewById(R.id.progressbar);
+
         if(getIntent().getExtras() != null){
             editTextEmail.setText(getIntent().getExtras().getString("Email"));
         }
@@ -99,7 +106,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
                     Intent intent = new Intent (MainActivity.this,HomeActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt(HomeActivity.INTENT_FLAG,HomeActivity.FIRST_ENTER);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtras(b);
                     startActivity(intent);
                 }
                 else{

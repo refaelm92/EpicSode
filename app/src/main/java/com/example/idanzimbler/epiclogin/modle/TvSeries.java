@@ -1,13 +1,50 @@
 package com.example.idanzimbler.epiclogin.modle;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
-public class TvSeries {
+public class TvSeries implements  Comparable<TvSeries>{
     private String name, poster;
-    private float popularity;
     private int numOfSeasons;
-    private ArrayList<Integer> seasons;
- //   private float rating;
+    private float popularity;
+    private String id;
+    private ArrayList<String> genres;
+    private ArrayList<Season> seasonsList;
+
+    public TvSeries()  {
+    }
+
+    public TvSeries(String id ,String name, String poster, int numOfSeasons, float popularity) {
+        this.id = id;
+        this.name = name;
+        this.poster = poster;
+        this.numOfSeasons = numOfSeasons;
+        this.popularity = popularity;
+        genres = new ArrayList<>();
+        seasonsList = new ArrayList<>();
+    }
+
+    public TvSeries(String id,String name, float popularity, String poster, int numOfSeasons
+            , ArrayList<Season> seasonsList, ArrayList<String> genres) {
+        this.id = id;
+        this.name = name;
+        this.popularity = popularity;
+        this.poster = poster;
+        this.numOfSeasons = numOfSeasons;
+        this.seasonsList = seasonsList;
+        this.genres = genres;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getNumOfSeasons() {
         return numOfSeasons;
@@ -41,39 +78,38 @@ public class TvSeries {
         this.popularity = popularity;
     }
 
-    public ArrayList<Integer> getSeasons() {
-        return seasons;
+    public ArrayList<Season> getSeasonsList() {
+        return seasonsList;
     }
 
-    public void setSeasons(ArrayList<Integer> seasons) {
-        this.seasons = seasons;
-    }
-//
-//    public String getImdbid() {
-//        return imdbid;
-//    }
-//
-//    public void setImdbid(String imdbid) {
-//        this.imdbid = imdbid;
-//    }
-//
-//    public float getRating() {
-//        return rating;
-//    }
-//
-//    public void setRating(float rating) {
-//        this.rating = rating;
-//    }
-
-    public TvSeries() {
-
+    public void setSeasonsList(ArrayList<Season> seasonsList) {
+        this.seasonsList = seasonsList;
     }
 
-    public TvSeries(String name, float popularity, String poster, ArrayList<Integer> seasons, int numOfSeasons) {
-        this.name = name;
-        this.popularity = popularity;
-        this.poster = poster;
-        this.seasons = seasons;
-        this.numOfSeasons = numOfSeasons;
+
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
+    }
+
+    @Override
+    public String toString() {
+        return "TvSeries{" +
+                "name='" + name + '\'' +
+                ", poster='" + poster + '\'' +
+                ", numOfSeasons=" + numOfSeasons +
+                ", popularity=" + popularity +
+                ", seasonsList=" + seasonsList +
+                '}';
+    }
+
+    @Override
+    public int compareTo(@NonNull TvSeries o) {
+        if(this.popularity > o.popularity) return -1;
+        if(o.popularity > this.popularity) return 1;
+        return 0;
     }
 }
