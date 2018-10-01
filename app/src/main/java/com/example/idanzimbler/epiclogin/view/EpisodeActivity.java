@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
+import com.example.idanzimbler.epiclogin.modle.EpisodeImage;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,9 +48,14 @@ public class EpisodeActivity extends AppCompatActivity {
                     .child(episodeIndex + "").child("episodesImages").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean isEmpty = true;
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        String path = data.getValue(String.class);
-                        mSwipeView.addView(new EpisodeCard(path, mContext, mSwipeView));
+                        isEmpty = false;
+                        EpisodeImage episodeImage = data.getValue(EpisodeImage.class);
+                        mSwipeView.addView(new EpisodeCard(episodeImage.getUrl(), mContext, mSwipeView));
+                    }
+                    if(isEmpty){
+                        mSwipeView.addView(new EpisodeCard(mContext,mSwipeView));
                     }
                 }
 

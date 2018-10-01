@@ -3,7 +3,7 @@ package com.example.idanzimbler.epiclogin.modle;
 import java.util.ArrayList;
 
 public class Episode {
-    private ArrayList<String> episodesImages;
+    private ArrayList<EpisodeImage> episodesImages;
     private String overview;
 
     public Episode (){
@@ -12,11 +12,11 @@ public class Episode {
     }
 
 
-    public ArrayList<String> getEpisodesImages() {
+    public ArrayList<EpisodeImage> getEpisodesImages() {
         return episodesImages;
     }
 
-    public void setEpisodesImages(ArrayList<String> episodesImages) {
+    public void setEpisodesImages(ArrayList<EpisodeImage> episodesImages) {
         this.episodesImages = episodesImages;
     }
 

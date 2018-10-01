@@ -24,28 +24,36 @@ public class EpisodeCard {
     private Context mContext;
     private SwipePlaceHolderView swipeView;
     private boolean isEmpty;
+
     public EpisodeCard(String path, Context mContext, SwipePlaceHolderView swipeView) {
+        isEmpty = false;
         this.path = path;
         this.mContext = mContext;
         this.swipeView = swipeView;
     }
 
-    public EpisodeCard(Context mContext, SwipePlaceHolderView swipeView){
-
+    public EpisodeCard(Context mContext, SwipePlaceHolderView swipeView) {
+        isEmpty = true;
     }
 
     @Resolve
-    private void onResolved(){
-        Picasso.get().load("https://image.tmdb.org/t/p/w500" + path).resize(1000,562).into(imageView);
+    private void onResolved() {
+        if (isEmpty) {
+            imageView.setImageResource(R.drawable.no_image);
+        } else {
+            Picasso.get().load("https://image.tmdb.org/t/p/w500" + path).resize(1000, 562).into(imageView);
+        }
     }
 
     @SwipeOut
-    private void onSwipedOut(){
+    private void onSwipedOut() {
         swipeView.addView(this);
     }
 
     @SwipeIn
-    private void onSwipeIn(){
-
+    private void onSwipeIn() {
+        if(isEmpty) {
+            swipeView.addView(this);
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
+import static com.example.idanzimbler.epiclogin.controller.Constants.*;
 import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.modle.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,28 +32,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     RadioGroup radioGroup;
     RadioButton radioButton;
     private FirebaseAuth mAuth;
-    ArrayList<Boolean> checkedGenres = new ArrayList<>(NUMOFGENRES);
-    //#defines
-    public static final int NUMOFGENRES = 12;
-    public static final int ACTION = 0;
-    public static final int ADVENTURE = 1;
-    public static final int ANIMATION = 2;
-    public static final int BIOGRAPHY = 3;
-    public static final int COMEDY = 4;
-    public static final int CRIME = 5;
-    public static final int THRILLER = 6;
-    public static final int DRAMA = 7;
-    public static final int FANTASY = 8;
-    public static final int HORROR = 9;
-    public static final int ROMANCE = 10;
-    public static final int DOCUMENTARY = 11;
+    final ArrayList<Boolean> checkedGenres = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        checkedGenres.addAll(Collections.nCopies(NUMOFGENRES, Boolean.FALSE));
+        for (int i = 0; i < NUMOFGENRES; i++) {
+            checkedGenres.add(false);
+        }
         editTextEmail = findViewById(R.id.signemailtxt);
         editTextPassword = findViewById(R.id.signpasstxt);
         progressBar = findViewById(R.id.progressbar);
@@ -67,7 +56,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void registerUser() {
-
+        /*
+        final ArrayList<Boolean> newCheckedGenres = new ArrayList<>();
+        for (int i = 0; i <NUMOFGENRES ; i++) {
+            newCheckedGenres.add(false);
+        }
+        for (int i = 0; i < NUMOFGENRES; i++) {
+            newCheckedGenres.set(i,checkedGenres.get(i));
+        }
+        */
         final String email = editTextEmail.getText().toString().trim();
         String pass = editTextPassword.getText().toString().trim();
         final String age = editTextAge.getText().toString().trim();
@@ -125,6 +122,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
+
                         if (task.isSuccessful()) {
                             User user = new User(
                                     email,
@@ -140,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
                                         //Toast.makeText(getApplicationContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(SignUpActivity.this, GenresActivity.class);
                                         intent.putExtra("Email", editTextEmail.getText().toString());
                                         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
@@ -177,48 +175,4 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
-    public void checkBoxClick(View view) {
-        boolean isChecked = ((CheckBox) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.actioncb:
-                checkedGenres.add(ACTION, isChecked);
-                break;
-            case R.id.adventurecb:
-                checkedGenres.add(ADVENTURE, isChecked);
-                break;
-            case R.id.animationcb:
-                checkedGenres.add(ANIMATION, isChecked);
-                break;
-            case R.id.biographycb:
-                checkedGenres.add(BIOGRAPHY, isChecked);
-                break;
-            case R.id.comedycb:
-                checkedGenres.add(COMEDY, isChecked);
-                break;
-            case R.id.crimecb:
-                checkedGenres.add(CRIME, isChecked);
-                break;
-            case R.id.thrillercb:
-                checkedGenres.add(THRILLER, isChecked);
-                break;
-            case R.id.dramacb:
-                checkedGenres.add(DRAMA, isChecked);
-                break;
-            case R.id.fantasycb:
-                checkedGenres.add(FANTASY, isChecked);
-                break;
-            case R.id.horrorcb:
-                checkedGenres.add(HORROR, isChecked);
-                break;
-            case R.id.romancecb:
-                checkedGenres.add(ROMANCE, isChecked);
-                break;
-            case R.id.documentarycb:
-                checkedGenres.add(DOCUMENTARY, isChecked);
-                break;
-        }
-
-    }
 }

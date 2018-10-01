@@ -13,14 +13,15 @@
         android:id="@+id/signemailtxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="62dp"
-        android:drawableLeft="@drawable/emaillogo"
+        android:layout_marginTop="112dp"
         android:drawableStart="@drawable/emaillogo"
+        android:drawableLeft="@drawable/emaillogo"
         android:ems="10"
         android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
         app:backgroundTint="@color/common_google_signin_btn_text_dark_focused"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,8 +29,8 @@
         android:id="@+id/signpasstxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/locklogo"
         android:drawableStart="@drawable/locklogo"
+        android:drawableLeft="@drawable/locklogo"
         android:ems="10"
         android:hint="@string/pass_hint"
         android:inputType="textPassword"
@@ -37,24 +38,43 @@
         app:layout_constraintStart_toStartOf="@+id/signemailtxt"
         app:layout_constraintTop_toBottomOf="@+id/signemailtxt" />
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginLeft="168dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginRight="168dp"
+        android:layout_marginBottom="15dp"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@drawable/blackprogressbar"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/signupbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Button
         android:id="@+id/signupbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/mybutton"
         android:text="@string/signupbtn"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/haveaccbtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressbar" />
 
     <TextView
         android:id="@+id/haveaccbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="120dp"
         android:text="@string/haveaccbtn"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textStyle="bold"
@@ -67,8 +87,8 @@
         android:id="@+id/signagetxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/agelogo"
         android:drawableStart="@drawable/agelogo"
+        android:drawableLeft="@drawable/agelogo"
         android:ems="10"
         android:hint="@string/age_hint"
         android:inputType="number"
@@ -76,174 +96,13 @@
         app:layout_constraintStart_toStartOf="@+id/signpasstxt"
         app:layout_constraintTop_toBottomOf="@+id/signpasstxt" />
 
-    <CheckBox
-        android:id="@+id/animationcb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Animation"
-        app:layout_constraintStart_toStartOf="@+id/adventurecb"
-        app:layout_constraintTop_toBottomOf="@+id/adventurecb" />
-
-    <CheckBox
-        android:id="@+id/thrillercb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Thriller"
-        app:layout_constraintStart_toStartOf="@+id/crimecb"
-        app:layout_constraintTop_toBottomOf="@+id/crimecb" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:text="Choose your favorite genres:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/horrorcb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Horror"
-        app:layout_constraintBottom_toTopOf="@+id/thrillercb"
-        app:layout_constraintStart_toStartOf="@+id/fantasycb"
-        app:layout_constraintTop_toTopOf="@+id/crimecb" />
-
-    <CheckBox
-        android:id="@+id/romancecb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Romance"
-        app:layout_constraintBottom_toBottomOf="@+id/thrillercb"
-        app:layout_constraintStart_toStartOf="@+id/horrorcb"
-        app:layout_constraintTop_toBottomOf="@+id/crimecb" />
-
-    <CheckBox
-        android:id="@+id/documentarycb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Documentary"
-        app:layout_constraintBottom_toBottomOf="@+id/dramacb"
-        app:layout_constraintStart_toStartOf="@+id/romancecb"
-        app:layout_constraintTop_toTopOf="@+id/dramacb" />
-
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="false"
-        android:visibility="invisible"
-        android:indeterminateDrawable="@drawable/blackprogressbar"
-        app:layout_constraintBottom_toTopOf="@+id/signupbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CheckBox
-        android:id="@+id/actioncb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Action"
-        app:layout_constraintBottom_toTopOf="@+id/adventurecb"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <CheckBox
-        android:id="@+id/comedycb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Comedy"
-        app:layout_constraintBottom_toTopOf="@+id/adventurecb"
-        app:layout_constraintStart_toEndOf="@+id/actioncb"
-        app:layout_constraintTop_toTopOf="@+id/actioncb" />
-
-    <CheckBox
-        android:id="@+id/adventurecb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Adventure"
-        app:layout_constraintStart_toStartOf="@+id/actioncb"
-        app:layout_constraintTop_toBottomOf="@+id/actioncb" />
-
-    <CheckBox
-        android:id="@+id/biographycb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Biography"
-        app:layout_constraintStart_toStartOf="@+id/animationcb"
-        app:layout_constraintTop_toBottomOf="@+id/animationcb" />
-
-    <CheckBox
-        android:id="@+id/crimecb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Crime"
-        app:layout_constraintStart_toStartOf="@+id/comedycb"
-        app:layout_constraintTop_toBottomOf="@+id/comedycb" />
-
-    <CheckBox
-        android:id="@+id/dramacb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Drama"
-        app:layout_constraintStart_toStartOf="@+id/thrillercb"
-        app:layout_constraintTop_toBottomOf="@+id/thrillercb" />
-
-    <CheckBox
-        android:id="@+id/fantasycb"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
-        android:onClick="checkBoxClick"
-        android:text="Fantasy"
-        app:layout_constraintBottom_toTopOf="@+id/crimecb"
-        app:layout_constraintStart_toEndOf="@+id/comedycb"
-        app:layout_constraintTop_toTopOf="@+id/comedycb" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="203dp"
         android:layout_height="37dp"
-        android:layout_marginBottom="48dp"
         android:layout_marginTop="51dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/actioncb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/signagetxt">
