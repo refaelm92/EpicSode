@@ -15,11 +15,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseAuth mAuth;
-    EditText editTextEmail,editTextPassword;
+    EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
+    FirebaseDatabase database;
+    DatabaseReference seriesRef;
+
     //String Email,Password,Age,Gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-        editTextEmail = (EditText)findViewById(R.id.emailtxt);
-        editTextPassword = (EditText)findViewById(R.id.passtxt);
-        progressBar = (ProgressBar)findViewById(R.id.progressbar);
-        if(getIntent().getExtras() != null){
+        database = FirebaseDatabase.getInstance();
+        seriesRef = database.getReference("TvSeries");
+        editTextEmail = (EditText) findViewById(R.id.emailtxt);
+        editTextPassword = (EditText) findViewById(R.id.passtxt);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        if (getIntent().getExtras() != null) {
             editTextEmail.setText(getIntent().getExtras().getString("Email"));
         }
 
@@ -43,16 +51,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
 
         }
     }
 
     @Override
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.noaccbtn:
-                startActivity(new Intent(this,SignUpActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class));
 
                 break;
             case R.id.loginbtn:
@@ -93,17 +101,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
-                if(task.isSuccessful()){
-                    Intent intent = new Intent (MainActivity.this,HomeActivity.class);
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt(HomeActivity.INTENT_FLAG, HomeActivity.FIRST_ENTER);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtras(b);
                     startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

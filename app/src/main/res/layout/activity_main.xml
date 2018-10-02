@@ -44,7 +44,7 @@
     <Button
         android:id="@+id/loginbtn"
         android:layout_width="wrap_content"
-        android:layout_height="37dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/mybutton"
         android:text="@string/loginbtn"
@@ -61,6 +61,7 @@
         android:layout_marginBottom="75dp"
         android:text="@string/noaccbtn"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/loginbtn"

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lightbluewallpaper"
+    tools:context=".view.ProfileActivity">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="167dp"
+        android:layout_marginLeft="167dp"
+        android:layout_marginEnd="169dp"
+        android:layout_marginRight="169dp"
+        android:layout_marginBottom="308dp"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@drawable/blackprogressbar"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/donebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginLeft="152dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
+        android:layout_marginBottom="115dp"
+        android:background="@drawable/mybutton"
+        android:text="@string/donebtn"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scificb"
+        app:layout_constraintVertical_bias="0.52" />
+    <CheckBox
+        android:id="@+id/animationcb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/animation"
+        app:layout_constraintStart_toStartOf="@+id/adventurecb"
+        app:layout_constraintTop_toBottomOf="@+id/adventurecb" />
+
+    <CheckBox
+        android:id="@+id/thrillercb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/thriller"
+        app:layout_constraintStart_toStartOf="@+id/crimecb"
+        app:layout_constraintTop_toBottomOf="@+id/crimecb" />
+
+
+    <CheckBox
+        android:id="@+id/horrorcb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/horror"
+        app:layout_constraintBottom_toTopOf="@+id/thrillercb"
+        app:layout_constraintStart_toStartOf="@+id/fantasycb"
+        app:layout_constraintTop_toTopOf="@+id/crimecb" />
+
+    <CheckBox
+        android:id="@+id/romancecb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/romance"
+        app:layout_constraintBottom_toBottomOf="@+id/thrillercb"
+        app:layout_constraintStart_toStartOf="@+id/horrorcb"
+        app:layout_constraintTop_toBottomOf="@+id/crimecb" />
+
+    <CheckBox
+        android:id="@+id/documentarycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/documentary"
+        app:layout_constraintBottom_toBottomOf="@+id/dramacb"
+        app:layout_constraintStart_toStartOf="@+id/romancecb"
+        app:layout_constraintTop_toTopOf="@+id/dramacb" />
+
+
+    <CheckBox
+        android:id="@+id/actioncb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="40dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/action"
+        app:layout_constraintBottom_toTopOf="@+id/adventurecb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.51" />
+
+    <CheckBox
+        android:id="@+id/comedycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/comedy"
+        app:layout_constraintBottom_toTopOf="@+id/adventurecb"
+        app:layout_constraintStart_toEndOf="@+id/actioncb"
+        app:layout_constraintTop_toTopOf="@+id/actioncb" />
+
+    <CheckBox
+        android:id="@+id/adventurecb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/adventure"
+        app:layout_constraintStart_toStartOf="@+id/actioncb"
+        app:layout_constraintTop_toBottomOf="@+id/actioncb" />
+
+    <CheckBox
+        android:id="@+id/westerncb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/western"
+        app:layout_constraintStart_toStartOf="@+id/animationcb"
+        app:layout_constraintTop_toBottomOf="@+id/animationcb" />
+
+    <CheckBox
+        android:id="@+id/familycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/family"
+        app:layout_constraintStart_toStartOf="@+id/westerncb"
+        app:layout_constraintTop_toBottomOf="@+id/westerncb" />
+
+    <CheckBox
+        android:id="@+id/historycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/history"
+        app:layout_constraintStart_toStartOf="@+id/familycb"
+        app:layout_constraintTop_toBottomOf="@+id/familycb" />
+
+    <CheckBox
+        android:id="@+id/musiccb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/music"
+        app:layout_constraintStart_toStartOf="@+id/historycb"
+        app:layout_constraintTop_toBottomOf="@+id/historycb" />
+
+    <CheckBox
+        android:id="@+id/warcb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/war"
+        app:layout_constraintStart_toStartOf="@+id/tvmoviecb"
+        app:layout_constraintTop_toBottomOf="@+id/tvmoviecb" />
+
+    <CheckBox
+        android:id="@+id/crimecb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/crime"
+        app:layout_constraintStart_toStartOf="@+id/comedycb"
+        app:layout_constraintTop_toBottomOf="@+id/comedycb" />
+
+    <CheckBox
+        android:id="@+id/dramacb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/drama"
+        app:layout_constraintStart_toStartOf="@+id/thrillercb"
+        app:layout_constraintTop_toBottomOf="@+id/thrillercb" />
+
+    <CheckBox
+        android:id="@+id/mysterycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/mystery"
+        app:layout_constraintStart_toStartOf="@+id/dramacb"
+        app:layout_constraintTop_toBottomOf="@+id/dramacb" />
+
+    <CheckBox
+        android:id="@+id/scificb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/sci_fi"
+        app:layout_constraintStart_toStartOf="@+id/mysterycb"
+        app:layout_constraintTop_toBottomOf="@+id/mysterycb" />
+
+    <CheckBox
+        android:id="@+id/tvmoviecb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/tv_movie"
+        app:layout_constraintBottom_toBottomOf="@+id/mysterycb"
+        app:layout_constraintStart_toStartOf="@+id/documentarycb"
+        app:layout_constraintTop_toTopOf="@+id/mysterycb" />
+
+    <CheckBox
+        android:id="@+id/fantasycb"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
+        android:onClick="checkBoxClick"
+        android:text="@string/fantasy"
+        app:layout_constraintBottom_toTopOf="@+id/crimecb"
+        app:layout_constraintStart_toEndOf="@+id/comedycb"
+        app:layout_constraintTop_toTopOf="@+id/comedycb" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/my_favorite_genres"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/actioncb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backbtn" />
+    <TextView
+        android:id="@+id/backbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="320dp"
+        android:layout_marginRight="320dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:text="@string/backbtn"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

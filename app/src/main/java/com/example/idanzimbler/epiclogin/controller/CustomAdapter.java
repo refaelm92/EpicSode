@@ -1,9 +1,12 @@
 package com.example.idanzimbler.epiclogin.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +17,22 @@ import android.widget.TextView;
 
 import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
+import com.example.idanzimbler.epiclogin.view.EpisodesActivity;
+import com.example.idanzimbler.epiclogin.view.HomeActivity;
+import com.example.idanzimbler.epiclogin.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class CustomAdapter extends BaseExpandableListAdapter {
+public class CustomAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<TvSeries> series;
 
-    public CustomAdapter(Context context, ArrayList<TvSeries> series) {
+    public CustomAdapter(Context context) {
         this.context = context;
-        this.series = series;
+        series = TvSeriesList.getInstance().getSeries();
     }
-
+    
     @Override
     public int getGroupCount() {
         return series.size();
@@ -75,22 +81,34 @@ class CustomAdapter extends BaseExpandableListAdapter {
         RatingBar ratingBar = view.findViewById(R.id.series_list_rating_bar);
         Picasso.get().load("https://image.tmdb.org/t/p/w500" + series.get(i).getPoster())
                 .resize(300, 444).into(img);
-        title.setText("Title: " + series.get(i).getName());
+        title.setText(series.get(i).getName());
         seasonNum.setText("Total Seasons: " + series.get(i).getNumOfSeasons());
-        ratingBar.setNumStars((int) series.get(i).getPopularity());
-        ratingBar.setMax(10);
+        float numOfStars = series.get(i).getPopularity();
+        ratingBar.setRating(numOfStars);
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.rgb(255 ,215,0), PorterDuff.Mode.SRC_ATOP);
         return view;
     }
 
     @Override
-    public View getChildView(int i, int i1, boolean isLastChild, View view, ViewGroup parent) {
+    public View getChildView(final int i, final int i1, boolean isLastChild, View view, ViewGroup parent) {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.season_list_expanded, null);
         }
         TextView season = view.findViewById(R.id.season_list_season_tv);
+
+        season.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent ((HomeActivity)context, EpisodesActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("series",i);
+                b.putInt("season",i1+1);
+                intent.putExtras(b);
+                context.startActivity(intent);
+            }
+        });
         season.setText((String) getChild(i, i1));
         return view;
 

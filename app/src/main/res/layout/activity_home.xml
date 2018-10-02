@@ -3,41 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/lightbluewallpaper"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".view.HomeActivity">
+
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="381dp"
-        android:layout_height="62dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="371dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="2dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/myListView"
+        app:layout_constraintBottom_toTopOf="@+id/home_series_list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/search_edit_text"
+            android:id="@+id/home_search_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/enter_tv_series_name"
             android:focusedByDefault="false"
+            android:hint="@string/enter_tv_series_name"
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/home_search_btn"
+            android:layout_width="49dp"
+            android:layout_height="34dp"
             android:layout_weight="1"
-            android:text="@string/search" />
+            android:background="@drawable/mybutton"
+            android:text="@string/search"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/profile_btn"
+            android:layout_width="49dp"
+            android:layout_height="34dp"
+            android:layout_weight="1"
+            android:background="@drawable/mybutton"
+            android:text="@string/profile"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
     <ExpandableListView
-        android:id="@+id/myListView"
+        android:id="@+id/home_series_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
@@ -51,5 +64,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+    <ProgressBar
+        android:id="@+id/home_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminateDrawable="@drawable/blackprogressbar"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/home_series_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

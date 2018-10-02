@@ -18,8 +18,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.SignUpActivity" />
-        <activity android:name=".view.HomeActivity"/>
-
+        <activity android:name=".view.HomeActivity" />
+        <activity android:name=".view.EpisodesActivity" />
+        <activity android:name=".view.EpisodeActivity" />
+        <activity android:name=".view.GenresActivity" />
+        <activity android:name=".view.ProfileActivity"></activity>
     </application>
 
 </manifest>
