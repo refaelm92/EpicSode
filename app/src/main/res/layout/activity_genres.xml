@@ -9,7 +9,6 @@
     tools:context=".view.GenresActivity"
     tools:layout_editor_absoluteY="25dp">
 
-<<<<<<< HEAD
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -44,8 +43,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scificb" />
-=======
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
 
     <CheckBox
         android:id="@+id/animationcb"
@@ -68,25 +65,6 @@
         app:layout_constraintStart_toStartOf="@+id/crimecb"
         app:layout_constraintTop_toBottomOf="@+id/crimecb" />
 
-<<<<<<< HEAD
-=======
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="137dp"
-        android:gravity="center"
-        android:text="@string/for_future_series_recommendations_n_select_your_favorite_genres"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128" />
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
 
     <CheckBox
         android:id="@+id/horrorcb"
@@ -122,37 +100,12 @@
         app:layout_constraintTop_toTopOf="@+id/dramacb" />
 
 
-<<<<<<< HEAD
-=======
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="167dp"
-        android:layout_marginLeft="167dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="169dp"
-        android:layout_marginRight="169dp"
-        android:layout_marginBottom="20dp"
-        android:indeterminate="false"
-        android:indeterminateDrawable="@drawable/blackprogressbar"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/finishbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scificb" />
-
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
     <CheckBox
         android:id="@+id/actioncb"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-<<<<<<< HEAD
-=======
-        android:layout_marginTop="10dp"
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
         android:layout_marginBottom="1dp"
         android:buttonTint="@color/common_google_signin_btn_text_dark_focused"
         android:onClick="checkBoxClick"
@@ -302,10 +255,6 @@
         android:id="@+id/finishbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-=======
-        android:layout_marginBottom="120dp"
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
         android:background="@drawable/mybutton"
         android:text="@string/donebtn"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
@@ -313,12 +262,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.776" />
-=======
-        app:layout_constraintTop_toBottomOf="@+id/progressbar" />
->>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
 
     <TextView
         android:id="@+id/skipbtn"
