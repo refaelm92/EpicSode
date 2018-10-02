@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar progressBar;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
+<<<<<<< HEAD
 
+=======
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
     //String Email,Password,Age,Gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
+<<<<<<< HEAD
         editTextEmail = (EditText) findViewById(R.id.emailtxt);
         editTextPassword = (EditText) findViewById(R.id.passtxt);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         if (getIntent().getExtras() != null) {
+=======
+        editTextEmail = (EditText)findViewById(R.id.emailtxt);
+        editTextPassword = (EditText)findViewById(R.id.passtxt);
+        progressBar = (ProgressBar)findViewById(R.id.progressbar);
+
+        if(getIntent().getExtras() != null){
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
             editTextEmail.setText(getIntent().getExtras().getString("Email"));
         }
 
@@ -105,10 +116,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
+<<<<<<< HEAD
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     Bundle b = new Bundle();
                     b.putInt(HomeActivity.INTENT_FLAG, HomeActivity.FIRST_ENTER);
+=======
+                if(task.isSuccessful()){
+                    Intent intent = new Intent (MainActivity.this,HomeActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt(HomeActivity.INTENT_FLAG,HomeActivity.FIRST_ENTER);
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtras(b);
                     startActivity(intent);

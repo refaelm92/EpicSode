@@ -7,8 +7,12 @@
     <string name="donebtn">Done</string>
     <string name="signupbtn">Sign up</string>
     <string name="skipbtn">Skip</string>
+<<<<<<< HEAD
     <string name="backbtn">Back</string>
     <string name="haveaccbtn">Already have an account? Click to Log-in</string>
+=======
+    <string name="haveaccbtn">Already have account? Click to Log-in</string>
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
     <string name="age_hint">Age:</string>
     <string name="male_check">Male</string>
     <string name="female_check">Female</string>
@@ -31,12 +35,19 @@
     <string name="family">Family</string>
     <string name="western">Western</string>
     <string name="music">Music</string>
+<<<<<<< HEAD
     <string name="for_future_series_recommendations_n_select_your_favorite_genres">For future series recommendations, \n select your favorite genres:</string>
+=======
+    <string name="for_future_series_recommendations_n_select_your_favorite_genres">For future series recommendations,  select your favorite genres:</string>
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
     <string name="horror">Horror</string>
     <string name="comedy">Comedy</string>
     <string name="romance">Romance</string>
     <string name="adventure">Adventure</string>
+<<<<<<< HEAD
     <string name="my_favorite_genres">My favorite genres:</string>
     <string name="profile">Profile</string>
+=======
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
 
 </resources>

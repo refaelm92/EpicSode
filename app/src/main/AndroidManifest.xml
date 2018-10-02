@@ -20,9 +20,15 @@
         <activity android:name=".view.SignUpActivity" />
         <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.EpisodesActivity" />
+<<<<<<< HEAD
         <activity android:name=".view.EpisodeActivity" />
         <activity android:name=".view.GenresActivity" />
         <activity android:name=".view.ProfileActivity"></activity>
+=======
+        <activity android:name=".view.EpisodeActivity"></activity>
+        <activity android:name=".view.GenresActivity"></activity>
+
+>>>>>>> efae72848b8ffa5a6ba4f58e61805a96973420b0
     </application>
 
 </manifest>
