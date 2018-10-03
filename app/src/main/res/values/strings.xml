@@ -38,5 +38,10 @@
     <string name="adventure">Adventure</string>
     <string name="my_favorite_genres">My favorite genres:</string>
     <string name="profile">Profile</string>
+    <string name="title_activity_test">test</string>
+    <string name="version_2_3_1_n_created_by_n_idan_zimbler_amp_refael_mizrahi"><![CDATA[Version 2.3.1 \n  Created by   Idan Zimbler & Refael Mizrahi]]></string>
+    <string name="idanqwe_gmail_com">idanqwe@gmail.com</string>
+    <string name="refaelm92_gmail_com">refaelm92@gmail.com</string>
+    <string name="contact_us">Contact us:</string>
 
 </resources>

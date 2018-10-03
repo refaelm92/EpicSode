@@ -3,8 +3,11 @@ package com.example.idanzimbler.epiclogin.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -33,12 +36,14 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.homeToolbar);
+        setSupportActionBar(toolbar);
         context = this;
         isInSearchMode = false;
         progressBar = findViewById(R.id.home_progressbar);
         list = findViewById(R.id.home_series_list);
         searchEt = findViewById(R.id.home_search_et);
-        searchBtn = findViewById(R.id.home_search_btn);
+        //searchBtn = findViewById(R.id.home_search_btn);
         progressBar.setVisibility(View.VISIBLE);
         final CustomAdapter adapter = new CustomAdapter(this);
         list.setAdapter(adapter);
@@ -74,8 +79,8 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
             }
         });
 
-        findViewById(R.id.profile_btn).setOnClickListener(this);
-        findViewById(R.id.home_search_btn).setOnClickListener(this);
+        //findViewById(R.id.profile_btn).setOnClickListener(this);
+        //findViewById(R.id.home_search_btn).setOnClickListener(this);
 
     }
 
@@ -110,20 +115,45 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.home_search_btn:
-                String searchString = searchEt.getText().toString().trim();
-                if (searchString.isEmpty()) {
-                    isInSearchMode = false;
-                    TvSeriesList.getInstance().clear();
-                    new FillSeriesListFromFireBaseTask(context, list).execute();
-                } else {
-                    isInSearchMode = true;
-                    new FillSeriesListFromFireBaseBySearchTask(context, list, searchString).execute();
-                }
-                break;
-            case R.id.profile_btn:
-                startActivity(new Intent(this, ProfileActivity.class));
-                break;
+            //case R.id.home_search_btn:
+             //   String searchString = searchEt.getText().toString().trim();
+             //   if (searchString.isEmpty()) {
+             //       isInSearchMode = false;
+              //      TvSeriesList.getInstance().clear();
+              //      new FillSeriesListFromFireBaseTask(context, list).execute();
+             //   } else {
+              //      isInSearchMode = true;
+              //      new FillSeriesListFromFireBaseBySearchTask(context, list, searchString).execute();
+             //   }
+             //   break;
+           // case R.id.profile_btn:
+            //    startActivity(new Intent(this, ProfileActivity.class));
+            //    break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu manu){
+        getMenuInflater().inflate(R.menu.main,manu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case R.id.profilemenu:
+                startActivity(new Intent(this,ProfileActivity.class));
+                break;
+            case R.id.favoritesmenu:
+                // GO TO FAVORITES ACTIVITY
+                break;
+            case R.id.aboutmenu:
+                startActivity(new Intent(this,AboutActivity.class));
+                break;
+
+
+        }
+        return true;
     }
 }
