@@ -128,7 +128,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     email,
                                     age,
                                     sex,
-                                    checkedGenres
+                                    checkedGenres,
+                                    new ArrayList<String>()
                             );
                             FirebaseDatabase.getInstance().getReference("Users").
                                     child(FirebaseAuth.getInstance().getCurrentUser().getUid())

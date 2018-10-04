@@ -1,12 +1,11 @@
 package com.example.idanzimbler.epiclogin.modle;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TvSeries implements  Comparable<TvSeries>{
+public class TvSeries implements Serializable,Comparable<TvSeries>{
     private String name, poster;
     private int numOfSeasons;
     private float popularity;

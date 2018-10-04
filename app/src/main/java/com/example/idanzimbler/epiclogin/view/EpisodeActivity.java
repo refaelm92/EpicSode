@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.idanzimbler.epiclogin.R;
-import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
-import com.example.idanzimbler.epiclogin.modle.Episode;
+import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
 import com.example.idanzimbler.epiclogin.modle.EpisodeImage;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +28,7 @@ public class EpisodeActivity extends AppCompatActivity {
     private TextView overviewTv;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
-    int seriesIndex;
+    TvSeries tvSeries;
     int seasonIndex;
     int episodeIndex;
 
@@ -46,14 +45,13 @@ public class EpisodeActivity extends AppCompatActivity {
         mSwipeView.getBuilder().setDisplayViewCount(3).setSwipeDecor(new SwipeDecor().setRelativeScale(0.01f));
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            seriesIndex = b.getInt("series");
+            tvSeries = (TvSeries) b.getSerializable("series");
             seasonIndex = b.getInt("season");
             episodeIndex = b.getInt("episode");
         }
         try {
-            final TvSeries series = TvSeriesList.getInstance().getSeries().get(seriesIndex);
-            seriesDetailsTv.setText(series.getName()+" | Season: "+seasonIndex+" | Episode: "+episodeIndex);
-            seriesRef.child(series.getId()).child("seasonsList")
+            seriesDetailsTv.setText(tvSeries.getName()+" | Season: "+seasonIndex+" | Episode: "+episodeIndex);
+            seriesRef.child(tvSeries.getId()).child("seasonsList")
                     .child(seasonIndex + "").child("episodesList")
                     .child(episodeIndex + "").child("episodesImages").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -75,7 +73,7 @@ public class EpisodeActivity extends AppCompatActivity {
 
                 }
             });
-            seriesRef.child(series.getId()).child("seasonsList")
+            seriesRef.child(tvSeries.getId()).child("seasonsList")
                     .child(seasonIndex + "").child("episodesList")
                     .child(episodeIndex + "").child("overview").addValueEventListener(new ValueEventListener() {
                 @Override

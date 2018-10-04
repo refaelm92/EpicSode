@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.idanzimbler.epiclogin.R;
-import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
+import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
 import com.example.idanzimbler.epiclogin.modle.Season;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +26,7 @@ public class EpisodesActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference seriesRef;
     Context context;
-    int seriesIndex;
+    TvSeries tvSeries;
     int seasonIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class EpisodesActivity extends AppCompatActivity {
         seriesRef = database.getReference("TvSeries");
         Bundle b = getIntent().getExtras();
         if(b != null){
-            seriesIndex = b.getInt("series");
+            tvSeries = (TvSeries) b.getSerializable("series");
             seasonIndex = b.getInt("season");
             initializeAdapter();
         }
@@ -47,7 +47,7 @@ public class EpisodesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent (context, EpisodeActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("series",seriesIndex);
+                b.putSerializable("series",tvSeries);
                 b.putInt("season",seasonIndex);
                 b.putInt("episode",(position+1));
                 intent.putExtras(b);
@@ -58,9 +58,8 @@ public class EpisodesActivity extends AppCompatActivity {
 
     private void initializeAdapter() {
         try {
-            final TvSeries series = TvSeriesList.getInstance().getSeries().get(seriesIndex);
-            Log.e("refaelTest","seriesId "+series.getId());
-            seriesRef.child(series.getId()).child("seasonsList").child(seasonIndex + "").addValueEventListener(new ValueEventListener() {
+            Log.e("refaelTest","seriesId "+tvSeries.getId());
+            seriesRef.child(tvSeries.getId()).child("seasonsList").child(seasonIndex + "").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Season season = dataSnapshot.getValue(Season.class);

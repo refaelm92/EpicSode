@@ -47,6 +47,15 @@
         android:isIndicator="true"
         android:numStars="10" />
 
+    <ImageView
+        android:id="@+id/series_list_fav_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/series_list_seasons_tv"
+        android:layout_marginEnd="15dp"
+        app:srcCompat="@drawable/emptystar" />
+
     <!--<RatingBar-->
         <!--android:id="@+id/series_list_rating_bar"-->
         <!--style="?attr/ratingBarStyleSmall"-->

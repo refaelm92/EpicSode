@@ -23,8 +23,8 @@
         <activity android:name=".view.EpisodeActivity" />
         <activity android:name=".view.GenresActivity" />
         <activity android:name=".view.AboutActivity" />
-        <activity android:name=".view.ProfileActivity"></activity>
-
+        <activity android:name=".view.ProfileActivity" />
+        <activity android:name=".view.FavoritesActivity"></activity>
     </application>
 
 </manifest>

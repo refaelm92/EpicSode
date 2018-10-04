@@ -43,5 +43,9 @@
     <string name="idanqwe_gmail_com">idanqwe@gmail.com</string>
     <string name="refaelm92_gmail_com">refaelm92@gmail.com</string>
     <string name="contact_us">Contact us:</string>
+    <string name="favorites">Favorites</string>
+    <string name="about">About</string>
+    <string name="home">Home</string>
+
 
 </resources>
