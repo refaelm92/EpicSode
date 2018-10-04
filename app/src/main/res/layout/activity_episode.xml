@@ -6,13 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".view.EpisodeActivity">
 
-    <com.mindorks.placeholderview.SwipePlaceHolderView
-        android:id="@+id/episode_swipe"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/episode_series_details_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:gravity="center_horizontal" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+            <com.mindorks.placeholderview.SwipePlaceHolderView
+                android:id="@+id/episode_swipe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.mindorks.placeholderview.SwipePlaceHolderView>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/episode_overview_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

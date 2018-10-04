@@ -1,6 +1,8 @@
 package com.example.idanzimbler.epiclogin.modle;
 
-public class EpisodeImage {
+import android.support.annotation.NonNull;
+
+public class EpisodeImage{
     private int likes;
     private String url;
 
@@ -28,4 +30,5 @@ public class EpisodeImage {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }

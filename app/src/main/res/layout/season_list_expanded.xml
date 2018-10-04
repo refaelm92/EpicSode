@@ -9,8 +9,10 @@
         android:id="@+id/season_list_season_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="20dp"
         android:paddingLeft="4dp"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
         />
 
 </LinearLayout>

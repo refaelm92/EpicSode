@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -58,6 +59,7 @@ public class EpisodesActivity extends AppCompatActivity {
     private void initializeAdapter() {
         try {
             final TvSeries series = TvSeriesList.getInstance().getSeries().get(seriesIndex);
+            Log.e("refaelTest","seriesId "+series.getId());
             seriesRef.child(series.getId()).child("seasonsList").child(seasonIndex + "").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

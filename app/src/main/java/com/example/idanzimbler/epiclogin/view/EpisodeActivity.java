@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
+import com.example.idanzimbler.epiclogin.modle.Episode;
 import com.example.idanzimbler.epiclogin.modle.EpisodeImage;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
@@ -17,9 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class EpisodeActivity extends AppCompatActivity {
     private SwipePlaceHolderView mSwipeView;
     private Context mContext;
+    private TextView seriesDetailsTv;
+    private TextView overviewTv;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
     int seriesIndex;
@@ -33,6 +40,8 @@ public class EpisodeActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
         mSwipeView = findViewById(R.id.episode_swipe);
+        seriesDetailsTv = findViewById(R.id.episode_series_details_tv);
+        overviewTv = findViewById(R.id.episode_overview_tv);
         mContext = getApplicationContext();
         mSwipeView.getBuilder().setDisplayViewCount(3).setSwipeDecor(new SwipeDecor().setRelativeScale(0.01f));
         Bundle b = getIntent().getExtras();
@@ -43,20 +52,35 @@ public class EpisodeActivity extends AppCompatActivity {
         }
         try {
             final TvSeries series = TvSeriesList.getInstance().getSeries().get(seriesIndex);
+            seriesDetailsTv.setText(series.getName()+" | Season: "+seasonIndex+" | Episode: "+episodeIndex);
             seriesRef.child(series.getId()).child("seasonsList")
                     .child(seasonIndex + "").child("episodesList")
                     .child(episodeIndex + "").child("episodesImages").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    boolean isEmpty = true;
+                    ArrayList<EpisodeCard> imagesCards = new ArrayList<>();
+                    imagesCards.add(new EpisodeCard(mContext,mSwipeView));
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        isEmpty = false;
                         EpisodeImage episodeImage = data.getValue(EpisodeImage.class);
-                        mSwipeView.addView(new EpisodeCard(episodeImage.getUrl(), mContext, mSwipeView));
+                        imagesCards.add(new EpisodeCard(episodeImage, mContext, mSwipeView, data.getRef()));
                     }
-                    if(isEmpty){
-                        mSwipeView.addView(new EpisodeCard(mContext,mSwipeView));
+                    Collections.sort(imagesCards);
+                    for (int i = 0; i < imagesCards.size() ; i++) {
+                      mSwipeView.addView(imagesCards.get(i));
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            seriesRef.child(series.getId()).child("seasonsList")
+                    .child(seasonIndex + "").child("episodesList")
+                    .child(episodeIndex + "").child("overview").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    overviewTv.setText(dataSnapshot.getValue(String.class).replaceAll(";","\n"));
                 }
 
                 @Override
