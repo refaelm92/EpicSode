@@ -58,6 +58,7 @@ public class TvSeriesFavoriteList {
                 for (DataSnapshot tvSeriesData : dataSnapshot.getChildren()) {
                     String id = tvSeriesData.getKey();
                     if(!seriesIdList.contains(id)) continue;
+                    if(contains(id)) continue;
                     String name = tvSeriesData.child("name").getValue(String.class);
                     Integer numOfSeasons = tvSeriesData.child("numOfSeasons").getValue(Integer.class);
                     String poster = tvSeriesData.child("poster").getValue(String.class);
@@ -119,6 +120,13 @@ public class TvSeriesFavoriteList {
             compressed.add(tvSeries.getId());
         }
         return compressed;
+    }
+
+    public boolean contains(String seriesIdToCheck) {
+        for (TvSeries tvSeries : series) {
+            if (tvSeries.getId().equals(seriesIdToCheck)) return true;
+        }
+        return false;
     }
 
 }

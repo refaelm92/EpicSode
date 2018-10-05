@@ -3,6 +3,7 @@ package com.example.idanzimbler.epiclogin.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
 import com.mindorks.placeholderview.annotations.Layout;
+import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.swipe.SwipeCancelState;
@@ -20,13 +22,16 @@ import com.mindorks.placeholderview.annotations.swipe.SwipeInState;
 import com.mindorks.placeholderview.annotations.swipe.SwipeOut;
 import com.mindorks.placeholderview.annotations.swipe.SwipeOutState;
 import com.squareup.picasso.Picasso;
-
+@NonReusable
 @Layout(R.layout.episode_card)
 public class EpisodeCard implements Comparable<EpisodeCard>{
 
+
     @View(R.id.episode_card_iv)
     private ImageView imageView;
-
+    private ImageView likeLogo;
+    private ImageView unlikeLogo;
+    private RotateAnimation anim;
     @View(R.id.episode_card_like_tv)
     private TextView likeTextView;
     FirebaseDatabase database;
@@ -35,31 +40,17 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
     private Context mContext;
     private SwipePlaceHolderView swipeView;
     private boolean isEmpty;
-//    String seriesId;
-//    int seasonIndex;
-//    int episodeIndex;
-//    String imageId;
-//
-//    public EpisodeCard(EpisodeImage image, Context mContext, SwipePlaceHolderView swipeView,
-//                       String seriesId, int seasonIndex, int episodeIndex, String imageId) {
-//        isEmpty = false;
-//        this.image = image;
-//        this.mContext = mContext;
-//        this.swipeView = swipeView;
-//        this.seriesId = seriesId;
-//        this.seasonIndex = seasonIndex;
-//        this.episodeIndex = episodeIndex;
-//        this.imageId = imageId;
-//        database = FirebaseDatabase.getInstance();
-//        seriesRef = database.getReference("TvSeries");
-//    }
 
-
-    public EpisodeCard(EpisodeImage image, Context mContext, SwipePlaceHolderView swipeView, DatabaseReference imageRef) {
+    public EpisodeCard(EpisodeImage image, Context mContext,
+                       SwipePlaceHolderView swipeView, DatabaseReference imageRef,
+                       ImageView likeLogo,ImageView unlikeLogo, RotateAnimation anim) {
         this.imageRef = imageRef;
         this.image = image;
         this.mContext = mContext;
         this.swipeView = swipeView;
+        this.likeLogo = likeLogo;
+        this.unlikeLogo = unlikeLogo;
+        this.anim = anim;
     }
 
     public EpisodeCard(Context mContext, SwipePlaceHolderView swipeView) {
@@ -100,6 +91,7 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
             likeTextView.setText("LIKE!");
             likeTextView.setTextColor(Color.GREEN);
             likeTextView.setRotation(20);
+            likeLogo.startAnimation(anim);
         }
     }
 
@@ -112,6 +104,7 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
             likeTextView.setText("UNLIKE!");
             likeTextView.setTextColor(Color.RED);
             likeTextView.setRotation(-20);
+            unlikeLogo.startAnimation(anim);
         }
     }
 
@@ -120,10 +113,16 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
         likeTextView.setVisibility(android.view.View.INVISIBLE);
     }
 
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
     @Override
     public int compareTo(@NonNull EpisodeCard o) {
         if(o.isEmpty || this.image.getLikes() > o.image.getLikes()) return -1;
         if(isEmpty || this.image.getLikes() < o.image.getLikes()) return 1;
         return 0;
     }
+
+
 }

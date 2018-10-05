@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +107,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         season.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("refaelTest","Series id: "+series.get(i).getId());
                 Intent intent = new Intent (context, EpisodesActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("series",series.get(i));
