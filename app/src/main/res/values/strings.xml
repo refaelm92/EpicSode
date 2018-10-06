@@ -46,6 +46,15 @@
     <string name="favorites">Favorites</string>
     <string name="about">About</string>
     <string name="home">Home</string>
+    <string name="kids">Kids</string>
+    <string name="action_adventure"><![CDATA[Action & Adventure]]></string>
+    <string name="news">News</string>
+    <string name="sci_fi_fantasy"><![CDATA[Sci-Fi & Fantasy]]></string>
+    <string name="reality">Reality</string>
+    <string name="soap">Soap</string>
+    <string name="talk">Talk</string>
+    <string name="war_politics"><![CDATA[War & Politics]]></string>
+    <string name="sign_out">Sign Out</string>>
 
 
 </resources>

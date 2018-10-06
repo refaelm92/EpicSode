@@ -59,7 +59,7 @@ public class EpisodesActivity extends AppCompatActivity {
     private void initializeAdapter() {
         try {
             Log.e("refaelTest","seriesId "+tvSeries.getId());
-            seriesRef.child(tvSeries.getId()).child("seasonsList").child(seasonIndex + "").addValueEventListener(new ValueEventListener() {
+            seriesRef.child(tvSeries.getId()).child("seasonsList").child(seasonIndex + "").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Season season = dataSnapshot.getValue(Season.class);

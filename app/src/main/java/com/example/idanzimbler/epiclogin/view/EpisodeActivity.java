@@ -71,7 +71,7 @@ public class EpisodeActivity extends AppCompatActivity {
             seriesDetailsTv.setText(tvSeries.getName() + " | Season: " + seasonIndex + " | Episode: " + episodeIndex);
             seriesRef.child(tvSeries.getId()).child("seasonsList")
                     .child(seasonIndex + "").child("episodesList")
-                    .child(episodeIndex + "").child("episodesImages").addValueEventListener(new ValueEventListener() {
+                    .child(episodeIndex + "").child("episodesImages").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     ArrayList<EpisodeCard> imagesCards = new ArrayList<>();

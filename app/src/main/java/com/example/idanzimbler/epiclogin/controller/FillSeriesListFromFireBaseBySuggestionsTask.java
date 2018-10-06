@@ -2,7 +2,6 @@ package com.example.idanzimbler.epiclogin.controller;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ExpandableListView;
 
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
@@ -14,13 +13,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class FillSeriesListFromFireBaseBySearchTask extends AsyncTask<Void, Void, Void> {
+public class FillSeriesListFromFireBaseBySuggestionsTask extends AsyncTask<Void, Void, Void> {
     ExpandableListView list;
     HomeActivity context;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
     String searchString;
-    public FillSeriesListFromFireBaseBySearchTask(HomeActivity context, ExpandableListView list,String searchString) {
+    public FillSeriesListFromFireBaseBySuggestionsTask(HomeActivity context, ExpandableListView list, String searchString) {
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
         this.list = list;

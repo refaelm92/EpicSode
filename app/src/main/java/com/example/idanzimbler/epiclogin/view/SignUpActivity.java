@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     ProgressBar progressBar;
@@ -32,16 +33,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     RadioGroup radioGroup;
     RadioButton radioButton;
     private FirebaseAuth mAuth;
-    final ArrayList<Boolean> checkedGenres = new ArrayList<>();
-
+//    final ArrayList<Boolean> checkedGenres = new ArrayList<>();
+    ArrayList<String> geners = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        for (int i = 0; i < NUMOFGENRES; i++) {
-            checkedGenres.add(false);
-        }
+//        for (int i = 0; i < NUMOFGENRES; i++) {
+//            checkedGenres.add(false);
+//        }
         editTextEmail = findViewById(R.id.signemailtxt);
         editTextPassword = findViewById(R.id.signpasstxt);
         progressBar = findViewById(R.id.progressbar);
@@ -128,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     email,
                                     age,
                                     sex,
-                                    checkedGenres,
+                                    geners,
                                     new ArrayList<String>()
                             );
                             FirebaseDatabase.getInstance().getReference("Users").

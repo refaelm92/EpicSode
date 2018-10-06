@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,8 @@ import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseTa
 import com.example.idanzimbler.epiclogin.controller.TvSeriesFavoriteList;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
@@ -33,7 +37,6 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
     public static final int REBUILD = 2;
     ExpandableListView list;
     EditText searchEt;
-    Button searchBtn;
     ProgressBar progressBar;
     HomeActivity context;
     boolean isInSearchMode;
@@ -45,21 +48,19 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.homeToolbar);
         setSupportActionBar(toolbar);
-        TvSeriesFavoriteList.getInstance();
         context = this;
         isInSearchMode = false;
         progressBar = findViewById(R.id.home_progressbar);
         list = findViewById(R.id.home_series_list);
         searchEt = findViewById(R.id.home_search_et);
-        //searchBtn = findViewById(R.id.home_search_btn);
         progressBar.setVisibility(View.VISIBLE);
-        adapter = new CustomAdapter(this,TvSeriesHomeList.getInstance().getSeries());
-        list.setAdapter(adapter);
+        TvSeriesHomeList.getInstance().clear();
+        TvSeriesFavoriteList.getInstance().clear();
+        TvSeriesFavoriteList.getInstance().initializeSeriesList();
         Bundle b = getIntent().getExtras();
         int flag = 1;
         if (b != null) flag = b.getInt(INTENT_FLAG);
         if (flag == FIRST_ENTER) {
-            TvSeriesHomeList.getInstance().clear();
             new FillSeriesListFromFireBaseTask(this, list).execute();
         }
         list.setOnScrollListener(this);
@@ -112,7 +113,6 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
 
     @Override
     protected void onResume() {
-        adapter.notifyDataSetChanged();
         super.onResume();
     }
 
@@ -163,7 +163,22 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
             case R.id.aboutmenu:
                 startActivity(new Intent(this,AboutActivity.class));
                 break;
+            case R.id.signoutmenu:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!searchEt.getText().toString().isEmpty()){
+            searchEt.setText("");
+        }else {
+            super.onBackPressed();
+        }
     }
 }

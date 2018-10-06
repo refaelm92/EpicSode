@@ -32,18 +32,14 @@ public class FillSeriesListFromFireBaseTask extends AsyncTask<Void, Void, Void> 
         this.list = list;
         this.context = context;
         this.beginingPostion = TvSeriesHomeList.getInstance().getSeries().size();
-        Log.e("refaelTest","numOfResults "+numOfResults);
-
     }
 
     @Override
 
     protected Void doInBackground(Void... voids) {
-        seriesRef.addValueEventListener(new ValueEventListener() {
+        seriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e("refaelTest","numOfChild "+dataSnapshot.getChildrenCount());
-                Log.e("refaelTest","beginPos "+beginingPostion);
                 CustomAdapter adapter = (CustomAdapter) list.getExpandableListAdapter();
                 if(adapter == null) {
                     adapter = new CustomAdapter(context,TvSeriesHomeList.getInstance().getSeries());
