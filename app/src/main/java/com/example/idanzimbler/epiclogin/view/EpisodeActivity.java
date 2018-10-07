@@ -1,12 +1,18 @@
 package com.example.idanzimbler.epiclogin.view;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.idanzimbler.epiclogin.R;
-import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
 import com.example.idanzimbler.epiclogin.modle.EpisodeImage;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
@@ -16,13 +22,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mindorks.placeholderview.SwipeDecor;
 import com.mindorks.placeholderview.SwipePlaceHolderView;
+import com.mindorks.placeholderview.annotations.swipe.SwipeTouch;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class EpisodeActivity extends AppCompatActivity {
     private SwipePlaceHolderView mSwipeView;
     private Context mContext;
+    private TextView seriesDetailsTv;
+    private TextView overviewTv;
+    private ImageView unlikeLogo;
+    private ImageView likeLogo;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
-    int seriesIndex;
+    TvSeries tvSeries;
     int seasonIndex;
     int episodeIndex;
 
@@ -33,29 +48,61 @@ public class EpisodeActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
         mSwipeView = findViewById(R.id.episode_swipe);
+        seriesDetailsTv = findViewById(R.id.episode_series_details_tv);
+        overviewTv = findViewById(R.id.episode_overview_tv);
+        unlikeLogo = findViewById(R.id.unlikeiv);
+        likeLogo = findViewById(R.id.likeiv);
         mContext = getApplicationContext();
-        mSwipeView.getBuilder().setDisplayViewCount(3).setSwipeDecor(new SwipeDecor().setRelativeScale(0.01f));
+
+        final RotateAnimation anim = new RotateAnimation(0f, 350f, 15f, 15f);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatCount(0);
+        anim.setDuration(200);
+        View.OnClickListener likeListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EpisodeCard card = (EpisodeCard) mSwipeView.getAllResolvers().get(0);
+                if(card.isEmpty()){
+                    mSwipeView.lockViews();
+                    return;
+                }
+                if(v.getId() == R.id.likeiv){
+                    mSwipeView.doSwipe(true);
+                    likeLogo.startAnimation(anim);
+                }
+                if(v.getId() == R.id.unlikeiv){
+                    mSwipeView.doSwipe(false);
+                    unlikeLogo.startAnimation(anim);
+                }
+            }
+        };
+        final ImageView likeLogo = findViewById(R.id.likeiv);
+        final ImageView unlikeLogo = findViewById(R.id.unlikeiv);
+        likeLogo.setOnClickListener(likeListener);
+        unlikeLogo.setOnClickListener(likeListener);
+        mSwipeView.getBuilder().setSwipeType(SwipePlaceHolderView.SWIPE_TYPE_HORIZONTAL).setDisplayViewCount(3).setSwipeDecor(new SwipeDecor().setPaddingTop(20).setRelativeScale(0.01f));
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            seriesIndex = b.getInt("series");
+            tvSeries = (TvSeries) b.getSerializable("series");
             seasonIndex = b.getInt("season");
             episodeIndex = b.getInt("episode");
         }
         try {
-            final TvSeries series = TvSeriesList.getInstance().getSeries().get(seriesIndex);
-            seriesRef.child(series.getId()).child("seasonsList")
+            seriesDetailsTv.setText(tvSeries.getName() + " | Season: " + seasonIndex + " | Episode: " + episodeIndex);
+            seriesRef.child(tvSeries.getId()).child("seasonsList")
                     .child(seasonIndex + "").child("episodesList")
-                    .child(episodeIndex + "").child("episodesImages").addValueEventListener(new ValueEventListener() {
+                    .child(episodeIndex + "").child("episodesImages").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    boolean isEmpty = true;
+                    ArrayList<EpisodeCard> imagesCards = new ArrayList<>();
+                    imagesCards.add(new EpisodeCard(mContext, mSwipeView));
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        isEmpty = false;
                         EpisodeImage episodeImage = data.getValue(EpisodeImage.class);
-                        mSwipeView.addView(new EpisodeCard(episodeImage.getUrl(), mContext, mSwipeView));
+                        imagesCards.add(new EpisodeCard(episodeImage, mContext, mSwipeView, data.getRef(), likeLogo, unlikeLogo, anim));
                     }
-                    if(isEmpty){
-                        mSwipeView.addView(new EpisodeCard(mContext,mSwipeView));
+                    Collections.sort(imagesCards);
+                    for (int i = 0; i < imagesCards.size(); i++) {
+                        mSwipeView.addView(imagesCards.get(i));
                     }
                 }
 
@@ -64,7 +111,29 @@ public class EpisodeActivity extends AppCompatActivity {
 
                 }
             });
-        }catch(Exception e){
+            seriesRef.child(tvSeries.getId()).child("seasonsList")
+                    .child(seasonIndex + "").child("episodesList")
+                    .child(episodeIndex + "").child("overview").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String fullOverview = dataSnapshot.getValue(String.class).replaceAll(";", "\n");
+                    try{
+                        if(fullOverview.length()>196)
+                            fullOverview = fullOverview.substring(0, 197);
+                        fullOverview += "...";
+                    }catch(Error error){
+                        error.printStackTrace();
+                    }
+
+                    overviewTv.setText(fullOverview);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

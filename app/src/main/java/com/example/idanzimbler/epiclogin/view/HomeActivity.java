@@ -10,50 +10,83 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.idanzimbler.epiclogin.R;
-import com.example.idanzimbler.epiclogin.controller.CustomAdapter;
 import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseBySearchTask;
+import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseBySuggestionsTask;
 import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseTask;
-import com.example.idanzimbler.epiclogin.controller.TvSeriesList;
+import com.example.idanzimbler.epiclogin.controller.TvSeriesFavoriteList;
+import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
+import com.example.idanzimbler.epiclogin.modle.TvSeries;
+import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
-public class HomeActivity extends AppCompatActivity implements AbsListView.OnScrollListener, View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements AbsListView.OnScrollListener {
     public static final String INTENT_FLAG = "flag";
     public static final int FIRST_ENTER = 1;
     public static final int REBUILD = 2;
+    public static final int RECOMMENDATION_ENTER = 2;
     ExpandableListView list;
     EditText searchEt;
-    Button searchBtn;
     ProgressBar progressBar;
     HomeActivity context;
     boolean isInSearchMode;
+    boolean isInRecommendationMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.homeToolbar);
+        Toolbar toolbar = findViewById(R.id.homeToolbar);
         setSupportActionBar(toolbar);
         context = this;
         isInSearchMode = false;
+        isInRecommendationMode = false;
         progressBar = findViewById(R.id.home_progressbar);
         list = findViewById(R.id.home_series_list);
         searchEt = findViewById(R.id.home_search_et);
-        //searchBtn = findViewById(R.id.home_search_btn);
         progressBar.setVisibility(View.VISIBLE);
-        final CustomAdapter adapter = new CustomAdapter(this);
-        list.setAdapter(adapter);
+        TvSeriesHomeList.getInstance().clear();
+        TvSeriesFavoriteList.getInstance().clear();
+        TvSeriesFavoriteList.getInstance().initializeSeriesList();
         Bundle b = getIntent().getExtras();
         int flag = 1;
         if (b != null) flag = b.getInt(INTENT_FLAG);
         if (flag == FIRST_ENTER) {
             new FillSeriesListFromFireBaseTask(this, list).execute();
+        } else if (flag == RECOMMENDATION_ENTER) {
+            progressBar.setVisibility(View.VISIBLE);
+            isInRecommendationMode = true;
+            new FillSeriesListFromFireBaseBySuggestionsTask(context, list).execute();
         }
         list.setOnScrollListener(this);
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TvSeriesFavoriteList favorites = TvSeriesFavoriteList.getInstance();
+                TvSeries series = TvSeriesHomeList.getInstance().getSeries().get(position);
+                if (favorites.contains(series)) {
+                    favorites.remove(series);
+                    ImageView star = view.findViewById(R.id.series_list_fav_iv);
+                    Picasso.get().load(R.drawable.emptystar).fit().into(star);
+                    Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                } else if (favorites.canAdd(series)) {
+                    favorites.add(series);
+                    ImageView star = view.findViewById(R.id.series_list_fav_iv);
+                    Picasso.get().load(R.drawable.filledstar).fit().into(star);
+                    Toast.makeText(getApplicationContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Maximum of 5 series can be added to favorites", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
         searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
                 String searchString = s.toString().trim();
                 if (searchString.isEmpty()) {
                     isInSearchMode = false;
-                    TvSeriesList.getInstance().clear();
+                    TvSeriesHomeList.getInstance().clear();
                     new FillSeriesListFromFireBaseTask(context, list).execute();
                 } else {
                     isInSearchMode = true;
@@ -78,10 +111,11 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
                 }
             }
         });
+    }
 
-        //findViewById(R.id.profile_btn).setOnClickListener(this);
-        //findViewById(R.id.home_search_btn).setOnClickListener(this);
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -90,17 +124,17 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (!isInSearchMode) {
+        if (!isInSearchMode && !isInRecommendationMode) {
             switch (view.getId()) {
                 case R.id.home_series_list:
 
                     final int lastItem = firstVisibleItem + visibleItemCount;
 
                     if (lastItem == totalItemCount) {
-                        if (TvSeriesList.getInstance().getPreLast() != lastItem) {
-                            TvSeriesList.getInstance().incrementPage();
+                        if (TvSeriesHomeList.getInstance().getPreLast() != lastItem) {
+                            TvSeriesHomeList.getInstance().incrementPage();
                             new FillSeriesListFromFireBaseTask(this, list).execute();
-                            TvSeriesList.getInstance().setPreLast(lastItem);
+                            TvSeriesHomeList.getInstance().setPreLast(lastItem);
                         }
                     }
             }
@@ -113,47 +147,57 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            //case R.id.home_search_btn:
-             //   String searchString = searchEt.getText().toString().trim();
-             //   if (searchString.isEmpty()) {
-             //       isInSearchMode = false;
-              //      TvSeriesList.getInstance().clear();
-              //      new FillSeriesListFromFireBaseTask(context, list).execute();
-             //   } else {
-              //      isInSearchMode = true;
-              //      new FillSeriesListFromFireBaseBySearchTask(context, list, searchString).execute();
-             //   }
-             //   break;
-           // case R.id.profile_btn:
-            //    startActivity(new Intent(this, ProfileActivity.class));
-            //    break;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu manu){
-        getMenuInflater().inflate(R.menu.main,manu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.profilemenu:
-                startActivity(new Intent(this,ProfileActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.favoritesmenu:
-                // GO TO FAVORITES ACTIVITY
+                startActivity(new Intent(this, FavoritesActivity.class));
                 break;
             case R.id.aboutmenu:
-                startActivity(new Intent(this,AboutActivity.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
-
-
+            case R.id.signoutmenu:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+            case R.id.recommendationmenu:
+                TvSeriesHomeList.getInstance().clear();
+                progressBar.setVisibility(View.VISIBLE);
+                isInRecommendationMode = true;
+                new FillSeriesListFromFireBaseBySuggestionsTask(context, list).execute();
+                break;
+            case R.id.homemenu:
+                if (isInRecommendationMode) {
+                    isInRecommendationMode = false;
+                    TvSeriesHomeList.getInstance().clear();
+                    new FillSeriesListFromFireBaseTask(this, list).execute();
+                }
+                break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchEt.getText().toString().isEmpty()) {
+            searchEt.setText("");
+        } else if (isInRecommendationMode) {
+            isInRecommendationMode = false;
+            TvSeriesHomeList.getInstance().clear();
+            new FillSeriesListFromFireBaseTask(this, list).execute();
+        }else {
+            super.onBackPressed();
+        }
     }
 }

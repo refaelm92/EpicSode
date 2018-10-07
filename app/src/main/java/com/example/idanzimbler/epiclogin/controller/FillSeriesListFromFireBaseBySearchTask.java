@@ -3,7 +3,6 @@ package com.example.idanzimbler.epiclogin.controller;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
@@ -14,8 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Iterator;
 
 public class FillSeriesListFromFireBaseBySearchTask extends AsyncTask<Void, Void, Void> {
     ExpandableListView list;
@@ -29,22 +26,20 @@ public class FillSeriesListFromFireBaseBySearchTask extends AsyncTask<Void, Void
         this.list = list;
         this.context = context;
         this.searchString = searchString;
-
     }
 
     @Override
 
     protected Void doInBackground(Void... voids) {
+        searchString = searchString.substring(0, 1).toUpperCase() + searchString.substring(1);
         Query query = seriesRef.orderByChild("name").startAt(searchString).endAt(Utils.nextWord(searchString));
-        Log.e("refaelTest","quert init");
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e("refaelTest","quert num of child "+dataSnapshot.getChildrenCount());
-                TvSeriesList.getInstance().clear();
+                TvSeriesHomeList.getInstance().clear();
                 CustomAdapter adapter = (CustomAdapter) list.getExpandableListAdapter();
                 if(adapter == null) {
-                    adapter = new CustomAdapter(context);
+                    adapter = new CustomAdapter(context,TvSeriesHomeList.getInstance().getSeries());
                     list.setAdapter(adapter);
                 }
                 adapter.notifyDataSetChanged();
@@ -55,7 +50,7 @@ public class FillSeriesListFromFireBaseBySearchTask extends AsyncTask<Void, Void
                     String poster = tvSeriesData.child("poster").getValue(String.class);
                     Float popularity = tvSeriesData.child("popularity").getValue(Float.class);
                     TvSeries tvSeries = new TvSeries(id,name,poster,numOfSeasons,popularity);
-                    TvSeriesList.getInstance().getSeries().add(tvSeries);
+                    TvSeriesHomeList.getInstance().getSeries().add(tvSeries);
                     adapter.notifyDataSetChanged();
                 }
             }

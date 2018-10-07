@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.example.idanzimbler.epiclogin.view.EpisodesActivity;
 import com.example.idanzimbler.epiclogin.view.HomeActivity;
-import com.example.idanzimbler.epiclogin.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<TvSeries> series;
 
-    public CustomAdapter(Context context) {
+    public CustomAdapter(Context context,ArrayList<TvSeries> series) {
         this.context = context;
-        series = TvSeriesList.getInstance().getSeries();
+        this.series = series;
     }
     
     @Override
@@ -78,6 +78,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         ImageView img = view.findViewById(R.id.series_list_iv);
         TextView title = view.findViewById(R.id.series_list_title_tv);
         TextView seasonNum = view.findViewById(R.id.series_list_seasons_tv);
+        ImageView favStar =  view.findViewById(R.id.series_list_fav_iv);
         RatingBar ratingBar = view.findViewById(R.id.series_list_rating_bar);
         Picasso.get().load("https://image.tmdb.org/t/p/w500" + series.get(i).getPoster())
                 .resize(300, 444).into(img);
@@ -87,6 +88,11 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         ratingBar.setRating(numOfStars);
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.rgb(255 ,215,0), PorterDuff.Mode.SRC_ATOP);
+        if(TvSeriesFavoriteList.getInstance().contains(series.get(i))){
+            Picasso.get().load(R.drawable.filledstar).fit().into(favStar);
+        }else{
+            Picasso.get().load(R.drawable.emptystar).fit().into(favStar);
+        }
         return view;
     }
 
@@ -101,9 +107,10 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         season.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent ((HomeActivity)context, EpisodesActivity.class);
+                Log.e("refaelTest","Series id: "+series.get(i).getId());
+                Intent intent = new Intent (context, EpisodesActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("series",i);
+                b.putSerializable("series",series.get(i));
                 b.putInt("season",i1+1);
                 intent.putExtras(b);
                 context.startActivity(intent);

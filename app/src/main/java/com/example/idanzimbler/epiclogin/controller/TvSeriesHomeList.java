@@ -5,20 +5,21 @@ import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TvSeriesList {
-    static TvSeriesList instance;
+public class TvSeriesHomeList {
+    static TvSeriesHomeList instance;
     ArrayList<TvSeries> series;
     int preLast;
     int page;
 
-    public static TvSeriesList getInstance(){
+    public static TvSeriesHomeList getInstance(){
         if(instance == null){
-            instance = new TvSeriesList();
+            instance = new TvSeriesHomeList();
         }
         return instance;
     }
 
-    private TvSeriesList(){
+    private TvSeriesHomeList(){
+
         series = new ArrayList<>();
         preLast = 0;
         page = 1;
@@ -58,7 +59,10 @@ public class TvSeriesList {
         page = 1;
     }
 
-    public void sort(){
-        Collections.sort(series);
+    public boolean contains(String id){
+        for (TvSeries tvSeries : series) {
+            if(tvSeries.getId().equals(id)) return true;
+        }
+        return false;
     }
 }

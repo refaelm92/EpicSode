@@ -3,21 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Profile"
-        android:id="@+id/profilemenu"
+        android:id="@+id/homemenu"
         android:orderInCategory="100"
+        android:title="@string/home"
         app:showAsAction="never" />
     <item
-        android:title="Favorites"
+        android:title="@string/favorites"
         android:id="@+id/favoritesmenu"
         android:orderInCategory="101"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/recommendationmenu"
+        android:orderInCategory="102"
+        android:title="@string/recommendation"
+        app:showAsAction="never" />
+
+    <item
+        android:title="@string/profile"
+        android:id="@+id/profilemenu"
+        android:orderInCategory="103"
+        app:showAsAction="never" />
+    <item
+        android:title="@string/about"
+        android:id="@+id/aboutmenu"
+        android:orderInCategory="104"
         app:showAsAction="never"
         />
     <item
-        android:title="About"
-        android:id="@+id/aboutmenu"
-        android:orderInCategory="102"
-        app:showAsAction="never"
-        />
+        android:id="@+id/signoutmenu"
+        android:orderInCategory="105"
+        android:title="@string/sign_out"
+        app:showAsAction="never" />
 
 </menu>
