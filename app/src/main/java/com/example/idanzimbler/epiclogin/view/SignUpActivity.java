@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import static com.example.idanzimbler.epiclogin.controller.Constants.*;
+
 import com.example.idanzimbler.epiclogin.R;
 import com.example.idanzimbler.epiclogin.modle.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     ProgressBar progressBar;
@@ -33,16 +29,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     RadioGroup radioGroup;
     RadioButton radioButton;
     private FirebaseAuth mAuth;
-//    final ArrayList<Boolean> checkedGenres = new ArrayList<>();
-    ArrayList<String> geners = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-//        for (int i = 0; i < NUMOFGENRES; i++) {
-//            checkedGenres.add(false);
-//        }
         editTextEmail = findViewById(R.id.signemailtxt);
         editTextPassword = findViewById(R.id.signpasstxt);
         progressBar = findViewById(R.id.progressbar);
@@ -57,15 +48,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void registerUser() {
-        /*
-        final ArrayList<Boolean> newCheckedGenres = new ArrayList<>();
-        for (int i = 0; i <NUMOFGENRES ; i++) {
-            newCheckedGenres.add(false);
-        }
-        for (int i = 0; i < NUMOFGENRES; i++) {
-            newCheckedGenres.set(i,checkedGenres.get(i));
-        }
-        */
         final String email = editTextEmail.getText().toString().trim();
         String pass = editTextPassword.getText().toString().trim();
         final String age = editTextAge.getText().toString().trim();
@@ -129,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     email,
                                     age,
                                     sex,
-                                    geners,
+                                    new ArrayList<String>(),
                                     new ArrayList<String>()
                             );
                             FirebaseDatabase.getInstance().getReference("Users").
@@ -139,10 +121,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
-                                        //Toast.makeText(getApplicationContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(SignUpActivity.this, GenresActivity.class);
                                         intent.putExtra("Email", editTextEmail.getText().toString());
-                                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                     } else {
                                         Toast.makeText(getApplicationContext(), "User registeration failed", Toast.LENGTH_SHORT).show();

@@ -66,7 +66,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.profilemenu:
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -79,8 +79,16 @@ public class FavoritesActivity extends AppCompatActivity {
                 break;
             case R.id.signoutmenu:
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+            case R.id.recommendationmenu:
+                intent = new Intent(this, HomeActivity.class);
+                Bundle b = new Bundle();
+                b.putInt(HomeActivity.INTENT_FLAG, HomeActivity.RECOMMENDATION_ENTER);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtras(b);
                 startActivity(intent);
                 break;
 

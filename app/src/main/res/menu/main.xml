@@ -13,19 +13,25 @@
         android:orderInCategory="101"
         app:showAsAction="never" />
     <item
+        android:id="@+id/recommendationmenu"
+        android:orderInCategory="102"
+        android:title="@string/recommendation"
+        app:showAsAction="never" />
+
+    <item
         android:title="@string/profile"
         android:id="@+id/profilemenu"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         app:showAsAction="never" />
     <item
         android:title="@string/about"
         android:id="@+id/aboutmenu"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/signoutmenu"
-        android:orderInCategory="104"
+        android:orderInCategory="105"
         android:title="@string/sign_out"
         app:showAsAction="never" />
 

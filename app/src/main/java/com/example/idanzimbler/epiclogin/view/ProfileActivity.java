@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
         databaseCheckedGenres = FirebaseDatabase.getInstance().getReference("Users").
-                child(mAuth.getCurrentUser().getUid()).child("Genres");
+                child(mAuth.getCurrentUser().getUid()).child("genres");
 
         doneBtn = findViewById(R.id.donebtn);
         findViewById(R.id.donebtn).setOnClickListener(this);
@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void doneBtnClick() {
         FirebaseDatabase.getInstance().getReference("Users").
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("Genres")
+                .child("genres")
                 .setValue(new ArrayList<String>(genresSet)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

@@ -85,6 +85,7 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
     @SwipeInState
     private void onSwipeInState() {
         if (isEmpty) {
+            swipeView.activatePutBack();
             swipeView.lockViews();
         }else{
             likeTextView.setVisibility(android.view.View.VISIBLE);
@@ -98,6 +99,7 @@ public class EpisodeCard implements Comparable<EpisodeCard>{
     @SwipeOutState
     private void onSwipeOutState() {
         if (isEmpty) {
+            swipeView.activatePutBack();
             swipeView.lockViews();
         }else{
             likeTextView.setVisibility(android.view.View.VISIBLE);

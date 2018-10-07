@@ -55,7 +55,7 @@ public class GenresActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference("Users").
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("Genres")
+                .child("genres")
                 .setValue(new ArrayList<String>(genresSet)).addOnCompleteListener(new OnCompleteListener<Void>(){
         @Override
         public void onComplete(@NonNull Task<Void> task) {

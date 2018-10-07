@@ -59,7 +59,10 @@ public class TvSeriesHomeList {
         page = 1;
     }
 
-    public void sort(){
-        Collections.sort(series);
+    public boolean contains(String id){
+        for (TvSeries tvSeries : series) {
+            if(tvSeries.getId().equals(id)) return true;
+        }
+        return false;
     }
 }

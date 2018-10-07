@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -23,6 +26,7 @@ import com.mindorks.placeholderview.annotations.swipe.SwipeTouch;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class EpisodeActivity extends AppCompatActivity {
     private SwipePlaceHolderView mSwipeView;
@@ -50,16 +54,22 @@ public class EpisodeActivity extends AppCompatActivity {
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatCount(0);
         anim.setDuration(200);
-
-// Start animating the image
+        View.OnClickListener likeListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EpisodeCard card = (EpisodeCard) mSwipeView.getAllResolvers().get(0);
+                if(card.isEmpty()){
+                    mSwipeView.lockViews();
+                    return;
+                }
+                if(v.getId() == R.id.likeiv) mSwipeView.doSwipe(true);
+                if(v.getId() == R.id.unlikeiv) mSwipeView.doSwipe(false);
+            }
+        };
         final ImageView likeLogo = findViewById(R.id.likeiv);
         final ImageView unlikeLogo = findViewById(R.id.unlikeiv);
-
-
-// Later.. stop the animation
-        //likeLogo.setAnimation(null);
-
-
+        likeLogo.setOnClickListener(likeListener);
+        unlikeLogo.setOnClickListener(likeListener);
         mSwipeView.getBuilder().setSwipeType(SwipePlaceHolderView.SWIPE_TYPE_HORIZONTAL).setDisplayViewCount(3).setSwipeDecor(new SwipeDecor().setPaddingTop(20).setRelativeScale(0.01f));
         Bundle b = getIntent().getExtras();
         if (b != null) {

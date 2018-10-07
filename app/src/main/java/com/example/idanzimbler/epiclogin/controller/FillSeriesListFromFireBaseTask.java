@@ -58,13 +58,15 @@ public class FillSeriesListFromFireBaseTask extends AsyncTask<Void, Void, Void> 
                         try {
                             DataSnapshot tvSeriesData = itr.next();
                             String id = tvSeriesData.getKey();
-                            String name = tvSeriesData.child("name").getValue(String.class);
-                            Integer numOfSeasons = tvSeriesData.child("numOfSeasons").getValue(Integer.class);
-                            String poster = tvSeriesData.child("poster").getValue(String.class);
-                            Float popularity = tvSeriesData.child("popularity").getValue(Float.class);
-                            TvSeries tvSeries = new TvSeries(id,name,poster,numOfSeasons,popularity);
-                            TvSeriesHomeList.getInstance().getSeries().add(tvSeries);
-                            adapter.notifyDataSetChanged();
+                            if(!TvSeriesHomeList.getInstance().contains(id)) {
+                                String name = tvSeriesData.child("name").getValue(String.class);
+                                Integer numOfSeasons = tvSeriesData.child("numOfSeasons").getValue(Integer.class);
+                                String poster = tvSeriesData.child("poster").getValue(String.class);
+                                Float popularity = tvSeriesData.child("popularity").getValue(Float.class);
+                                TvSeries tvSeries = new TvSeries(id, name, poster, numOfSeasons, popularity);
+                                TvSeriesHomeList.getInstance().getSeries().add(tvSeries);
+                                adapter.notifyDataSetChanged();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
