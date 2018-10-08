@@ -1,8 +1,10 @@
 package com.example.idanzimbler.epiclogin.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +37,7 @@ public class EpisodeActivity extends AppCompatActivity {
     private TextView overviewTv;
     private ImageView unlikeLogo;
     private ImageView likeLogo;
+    private ImageView questionmarkBtn;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
     TvSeries tvSeries;
@@ -45,6 +48,7 @@ public class EpisodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode);
+        questionmarkBtn = findViewById(R.id.questionmark_iv_btn);
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
         mSwipeView = findViewById(R.id.episode_swipe);
@@ -53,6 +57,25 @@ public class EpisodeActivity extends AppCompatActivity {
         unlikeLogo = findViewById(R.id.unlikeiv);
         likeLogo = findViewById(R.id.likeiv);
         mContext = getApplicationContext();
+
+        questionmarkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder  = new AlertDialog.Builder(EpisodeActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("How to use ");
+                builder.setMessage("Swipe right if the image was informative," +
+                        " or swipe left for uninformative image.\n" +
+                        "You can also navigate by clicking the like/unlike buttons!");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
 
         final RotateAnimation anim = new RotateAnimation(0f, 350f, 15f, 15f);
         anim.setInterpolator(new LinearInterpolator());

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPrefs = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mCheckBoxRemember = (CheckBox) findViewById(R.id.checkBoxRememberMe);
 
-        if (getIntent().getExtras() != null) {
+        if (getIntent().getExtras() != null) { ;
             editTextEmail.setText(getIntent().getExtras().getString("Email"));
         }
 
@@ -58,19 +58,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getPreferencesData() {
-        SharedPreferences sp = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
-        if(sp.contains("pref_name")){
-            String u = sp.getString("pref_name","not found");
+        SharedPreferences sp = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        if (sp.contains("pref_name")) {
+            String u = sp.getString("pref_name", "not found");
             editTextEmail.setText(u.toString());
         }
-        if(sp.contains("pref_pass")){
-            String p = sp.getString("pref_pass","not found");
+        if (sp.contains("pref_pass")) {
+            String p = sp.getString("pref_pass", "not found");
             editTextPassword.setText(p.toString());
         }
-        if(sp.contains("pref_check")){
-            Boolean b = sp.getBoolean("pref_check",false);
+        if (sp.contains("pref_check")) {
+            Boolean b = sp.getBoolean("pref_check", false);
             mCheckBoxRemember.setChecked(b);
         }
+
+
     }
 
     @Override
@@ -124,15 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editTextPassword.requestFocus();
             return;
         }
-        if(mCheckBoxRemember.isChecked()){
+        if (mCheckBoxRemember.isChecked()) {
             Boolean boolIsChecked = mCheckBoxRemember.isChecked();
             SharedPreferences.Editor editor = mPrefs.edit();
             editor.putString("pref_name", editTextEmail.getText().toString());
-            editor.putString("pref_pass",editTextPassword.getText().toString());
-            editor.putBoolean("pref_check",boolIsChecked);
+            editor.putString("pref_pass", editTextPassword.getText().toString());
+            editor.putBoolean("pref_check", boolIsChecked);
             editor.apply();
-        }
-        else{
+        } else {
             mPrefs.edit().clear().apply();
         }
 

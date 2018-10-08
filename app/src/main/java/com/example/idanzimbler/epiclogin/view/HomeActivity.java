@@ -1,7 +1,9 @@
 package com.example.idanzimbler.epiclogin.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
     EditText searchEt;
     ProgressBar progressBar;
     HomeActivity context;
+    ImageView questionmarkHomeBtn;
     boolean isInSearchMode;
     boolean isInRecommendationMode;
 
@@ -50,6 +53,7 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
         isInSearchMode = false;
         isInRecommendationMode = false;
         progressBar = findViewById(R.id.home_progressbar);
+        questionmarkHomeBtn = findViewById(R.id.home_questionmark_btn);
         list = findViewById(R.id.home_series_list);
         searchEt = findViewById(R.id.home_search_et);
         progressBar.setVisibility(View.VISIBLE);
@@ -111,6 +115,23 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
                     isInSearchMode = true;
                     new FillSeriesListFromFireBaseBySearchTask(context, list, searchString).execute();
                 }
+            }
+        });
+        questionmarkHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder  = new AlertDialog.Builder(HomeActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("How to use ");
+                builder.setMessage("Long click on the TV series will add/remove it to your favorites.\n" +
+                        "Long click on the Season/Episode will bookmark/un-bookmark it for you!");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
             }
         });
     }
