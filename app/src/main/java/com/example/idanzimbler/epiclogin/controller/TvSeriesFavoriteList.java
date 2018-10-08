@@ -37,8 +37,8 @@ public class TvSeriesFavoriteList {
 
     private TvSeriesFavoriteList() {
         Log.e("refaelTest", "constructing favorites");
-        mAuth = FirebaseAuth.getInstance();
         seriesRef = FirebaseDatabase.getInstance().getReference("TvSeries");
+        mAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
     }
 
@@ -121,9 +121,14 @@ public class TvSeriesFavoriteList {
         }
     }
 
-    public void remove(TvSeries seriesToRemove) {
-        if (series.contains(seriesToRemove)) {
-            series.remove(seriesToRemove);
+    public void remove(String seriesIdToRemove) {
+        if (contains(seriesIdToRemove)) {
+            TvSeries seriesToRemove = null;
+            for (TvSeries tvSeries : series) {
+                if(tvSeries.getId().equals(seriesIdToRemove))
+                    seriesToRemove = tvSeries;
+            }
+            if(seriesToRemove != null) series.remove(seriesToRemove);
             favoritesRef.setValue(compressSeriesList());
         }
 

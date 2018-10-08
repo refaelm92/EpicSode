@@ -2,7 +2,6 @@ package com.example.idanzimbler.epiclogin.controller;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -14,11 +13,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 
 public class FillSeriesListFromFireBaseBySuggestionsTask extends AsyncTask<Void, Void, Void> {
@@ -71,7 +68,6 @@ public class FillSeriesListFromFireBaseBySuggestionsTask extends AsyncTask<Void,
                     }
                 }
                 taskStatus = SERIES_IDS_TASK_FINISHED;
-                seriesIdsSet.forEach(id -> Log.e("refaelTest", "set series id: " + id));
             }
 
             @Override
@@ -97,15 +93,15 @@ public class FillSeriesListFromFireBaseBySuggestionsTask extends AsyncTask<Void,
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 context.getProgressBar().setVisibility(View.INVISIBLE);
                 TvSeriesHomeList.getInstance().clear();
-                CustomAdapter adapter = (CustomAdapter) list.getExpandableListAdapter();
+                SeriesAdapter adapter = (SeriesAdapter) list.getExpandableListAdapter();
                 if(adapter == null) {
-                    adapter = new CustomAdapter(context,TvSeriesHomeList.getInstance().getSeries());
+                    adapter = new SeriesAdapter(context,TvSeriesHomeList.getInstance().getSeries());
                     list.setAdapter(adapter);
                 }
                 adapter.notifyDataSetChanged();
                 for (DataSnapshot tvSeriesData : dataSnapshot.getChildren()) {
                     String id = tvSeriesData.getKey();
-                    if (seriesIdsSet.contains(id)) {
+                    if (seriesIdsSet.contains(id) && !TvSeriesFavoriteList.getInstance().contains(id)) {
                         String name = tvSeriesData.child("name").getValue(String.class);
                         Integer numOfSeasons = tvSeriesData.child("numOfSeasons").getValue(Integer.class);
                         String poster = tvSeriesData.child("poster").getValue(String.class);

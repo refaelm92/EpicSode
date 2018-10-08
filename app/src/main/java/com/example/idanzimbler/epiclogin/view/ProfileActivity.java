@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,9 +35,12 @@ import static com.example.idanzimbler.epiclogin.controller.Constants.*;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     DatabaseReference databaseCheckedGenres;
+    DatabaseReference databaseAge;
+    EditText ageEditText;
     Button doneBtn;
     private FirebaseAuth mAuth;
     HashSet<String> genresSet = new HashSet<>();
+    ProgressBar progressBar;
 
 
     @Override
@@ -41,11 +48,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        progressBar = findViewById(R.id.profile_progressbar);
+        progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
+        databaseAge = FirebaseDatabase.getInstance().getReference("Users").
+                child(mAuth.getCurrentUser().getUid()).child("age");
         databaseCheckedGenres = FirebaseDatabase.getInstance().getReference("Users").
                 child(mAuth.getCurrentUser().getUid()).child("genres");
 
         doneBtn = findViewById(R.id.donebtn);
+        ageEditText = findViewById(R.id.ageet);
         findViewById(R.id.donebtn).setOnClickListener(this);
         findViewById(R.id.backbtn).setOnClickListener(this);
 
@@ -68,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             cb.setChecked(true);
                         }
                     }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -77,6 +90,34 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+        databaseAge.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String age = String.valueOf(dataSnapshot.getValue());
+                ageEditText.setText(age);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        ageEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -112,6 +153,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void doneBtnClick() {
+        String strAge = ageEditText.getText().toString().trim();
+        if (strAge.isEmpty()) {
+            ageEditText.setError("Age is required");
+            ageEditText.requestFocus();
+            return;
+        }
+        if (strAge.length() > 2) {
+            ageEditText.setError("Maximum age is 99");
+            ageEditText.requestFocus();
+            return;
+        }
+        if (Integer.parseInt(strAge) <  12) {
+            ageEditText.setError("Minimum age is 12");
+            ageEditText.requestFocus();
+            return;
+        }
+        FirebaseDatabase.getInstance().getReference("Users").
+                child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("age")
+                .setValue(strAge);
         FirebaseDatabase.getInstance().getReference("Users").
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("genres")
@@ -119,11 +180,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Genres updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Profile updated", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to update genres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
                 }
             }
         });

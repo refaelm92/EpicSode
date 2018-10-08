@@ -12,7 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.idanzimbler.epiclogin.R;
+import com.example.idanzimbler.epiclogin.controller.EpisodeAdapter;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
+import com.example.idanzimbler.epiclogin.controller.UsersBookmarks;
+import com.example.idanzimbler.epiclogin.modle.Episode;
 import com.example.idanzimbler.epiclogin.modle.Season;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,7 @@ public class EpisodesActivity extends AppCompatActivity {
     Context context;
     TvSeries tvSeries;
     int seasonIndex;
+    EpisodeAdapter episodesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +41,7 @@ public class EpisodesActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         seriesRef = database.getReference("TvSeries");
         Bundle b = getIntent().getExtras();
-        if(b != null){
+        if (b != null) {
             tvSeries = (TvSeries) b.getSerializable("series");
             seasonIndex = b.getInt("season");
             initializeAdapter();
@@ -45,20 +49,33 @@ public class EpisodesActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent (context, EpisodeActivity.class);
+                Intent intent = new Intent(context, EpisodeActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("series",tvSeries);
-                b.putInt("season",seasonIndex);
-                b.putInt("episode",(position+1));
+                b.putSerializable("series", tvSeries);
+                b.putInt("season", seasonIndex);
+                b.putInt("episode", (position + 1));
                 intent.putExtras(b);
                 context.startActivity(intent);
+            }
+        });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                boolean isBookmark = UsersBookmarks.getInstance().isBookmark(tvSeries.getId(), seasonIndex, position + 1);
+                if (isBookmark) {
+                    UsersBookmarks.getInstance().removeBookmark(tvSeries.getId(), seasonIndex);
+                } else {
+                    UsersBookmarks.getInstance().addBookmark(tvSeries.getId(), seasonIndex, position + 1);
+                }
+                episodesAdapter.notifyDataSetChanged();
+                return true;
             }
         });
     }
 
     private void initializeAdapter() {
         try {
-            Log.e("refaelTest","seriesId "+tvSeries.getId());
+            Log.e("refaelTest", "seriesId " + tvSeries.getId());
             seriesRef.child(tvSeries.getId()).child("seasonsList").child(seasonIndex + "").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -67,8 +84,7 @@ public class EpisodesActivity extends AppCompatActivity {
                     for (int i = 0; i < episodesArray.length; i++) {
                         episodesArray[i] = "Episode " + (i + 1);
                     }
-                    ArrayAdapter<String> episodesAdapter =
-                            new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, episodesArray);
+                    episodesAdapter = new EpisodeAdapter(context, episodesArray, tvSeries.getId(), seasonIndex);
                     list.setAdapter(episodesAdapter);
                 }
 
@@ -77,7 +93,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
                 }
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

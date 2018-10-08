@@ -23,6 +23,7 @@ import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseBy
 import com.example.idanzimbler.epiclogin.controller.FillSeriesListFromFireBaseTask;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesFavoriteList;
 import com.example.idanzimbler.epiclogin.controller.TvSeriesHomeList;
+import com.example.idanzimbler.epiclogin.controller.UsersBookmarks;
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -55,6 +56,7 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
         TvSeriesHomeList.getInstance().clear();
         TvSeriesFavoriteList.getInstance().clear();
         TvSeriesFavoriteList.getInstance().initializeSeriesList();
+        UsersBookmarks.getInstance().initializeBookmarks();
         Bundle b = getIntent().getExtras();
         int flag = 1;
         if (b != null) flag = b.getInt(INTENT_FLAG);
@@ -71,8 +73,8 @@ public class HomeActivity extends AppCompatActivity implements AbsListView.OnScr
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TvSeriesFavoriteList favorites = TvSeriesFavoriteList.getInstance();
                 TvSeries series = TvSeriesHomeList.getInstance().getSeries().get(position);
-                if (favorites.contains(series)) {
-                    favorites.remove(series);
+                if (favorites.contains(series.getId())) {
+                    favorites.remove(series.getId());
                     ImageView star = view.findViewById(R.id.series_list_fav_iv);
                     Picasso.get().load(R.drawable.emptystar).fit().into(star);
                     Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();

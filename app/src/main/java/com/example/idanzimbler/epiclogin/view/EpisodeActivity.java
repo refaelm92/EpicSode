@@ -33,6 +33,8 @@ public class EpisodeActivity extends AppCompatActivity {
     private Context mContext;
     private TextView seriesDetailsTv;
     private TextView overviewTv;
+    private ImageView unlikeLogo;
+    private ImageView likeLogo;
     FirebaseDatabase database;
     DatabaseReference seriesRef;
     TvSeries tvSeries;
@@ -48,6 +50,8 @@ public class EpisodeActivity extends AppCompatActivity {
         mSwipeView = findViewById(R.id.episode_swipe);
         seriesDetailsTv = findViewById(R.id.episode_series_details_tv);
         overviewTv = findViewById(R.id.episode_overview_tv);
+        unlikeLogo = findViewById(R.id.unlikeiv);
+        likeLogo = findViewById(R.id.likeiv);
         mContext = getApplicationContext();
 
         final RotateAnimation anim = new RotateAnimation(0f, 350f, 15f, 15f);
@@ -62,8 +66,14 @@ public class EpisodeActivity extends AppCompatActivity {
                     mSwipeView.lockViews();
                     return;
                 }
-                if(v.getId() == R.id.likeiv) mSwipeView.doSwipe(true);
-                if(v.getId() == R.id.unlikeiv) mSwipeView.doSwipe(false);
+                if(v.getId() == R.id.likeiv){
+                    mSwipeView.doSwipe(true);
+                    likeLogo.startAnimation(anim);
+                }
+                if(v.getId() == R.id.unlikeiv){
+                    mSwipeView.doSwipe(false);
+                    unlikeLogo.startAnimation(anim);
+                }
             }
         };
         final ImageView likeLogo = findViewById(R.id.likeiv);

@@ -2,7 +2,6 @@ package com.example.idanzimbler.epiclogin.controller;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ExpandableListView;
 
 import com.example.idanzimbler.epiclogin.modle.TvSeries;
@@ -37,9 +36,9 @@ public class FillSeriesListFromFireBaseBySearchTask extends AsyncTask<Void, Void
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 TvSeriesHomeList.getInstance().clear();
-                CustomAdapter adapter = (CustomAdapter) list.getExpandableListAdapter();
+                SeriesAdapter adapter = (SeriesAdapter) list.getExpandableListAdapter();
                 if(adapter == null) {
-                    adapter = new CustomAdapter(context,TvSeriesHomeList.getInstance().getSeries());
+                    adapter = new SeriesAdapter(context,TvSeriesHomeList.getInstance().getSeries());
                     list.setAdapter(adapter);
                 }
                 adapter.notifyDataSetChanged();

@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +25,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends BaseExpandableListAdapter {
+public class SeriesAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<TvSeries> series;
 
-    public CustomAdapter(Context context,ArrayList<TvSeries> series) {
+    public SeriesAdapter(Context context, ArrayList<TvSeries> series) {
         this.context = context;
         this.series = series;
     }
@@ -102,7 +103,17 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.season_list_expanded, null);
         }
+        ImageView bookmark = view.findViewById(R.id.season_list_bookmark_iv);
+        CardView cv = view.findViewById(R.id.season_list_cv);
+        cv.setCardBackgroundColor(Color.TRANSPARENT);
+        cv.setCardElevation(0);
         TextView season = view.findViewById(R.id.season_list_season_tv);
+        boolean isBookmark = UsersBookmarks.getInstance().isSeasonBookmark(series.get(i).getId(),i1+1);
+        if (isBookmark) {
+            bookmark.setVisibility(View.VISIBLE);
+        } else {
+            bookmark.setVisibility(View.INVISIBLE);
+        }
 
         season.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +125,18 @@ public class CustomAdapter extends BaseExpandableListAdapter {
                 b.putInt("season",i1+1);
                 intent.putExtras(b);
                 context.startActivity(intent);
+            }
+        });
+        season.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean isBookmark = UsersBookmarks.getInstance().isSeasonBookmark(series.get(i).getId(),i1+1);                if (isBookmark) {
+                    UsersBookmarks.getInstance().removeBookmark(series.get(i).getId(), i1+1);
+                } else {
+                    UsersBookmarks.getInstance().addBookmark(series.get(i).getId(), i1+1, 1);
+                }
+                notifyDataSetChanged();
+                return true;
             }
         });
         season.setText((String) getChild(i, i1));
